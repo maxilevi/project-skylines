@@ -1,3 +1,6 @@
 UnityPackageManager
 Library
 ProjectSettings
+/*.csproj
+/*.sln
+.vs
