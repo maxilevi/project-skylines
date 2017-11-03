@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MarchingCubes.cs : MonoBehaviour {
+public class MarchingCubes : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

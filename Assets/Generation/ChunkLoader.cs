@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChunkLoader.cs : MonoBehaviour {
+public class ChunkLoader : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
