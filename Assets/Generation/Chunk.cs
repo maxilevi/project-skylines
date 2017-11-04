@@ -8,14 +8,18 @@ namespace Assets.Generation
         public const int ChunkSize = 16;
         public Vector3 Offset { get; private set; }
         public bool ShouldBuild { get; private set; }
+        public int Lod { get; set; }
 
-        private float[][][] _blocks = new float[ChunkSize][][];
-        private WorldGenerator _generator = new WorldGenerator();
+        private readonly World _world;
+        private readonly float[][][] _blocks = new float[ChunkSize][][];
+        private readonly WorldGenerator _generator = new WorldGenerator();
 
 
-        public Chunk(Vector3 Offset)
+        public Chunk(Vector3 Offset, World World)
         {
+            this._world = World;
             this.Offset = Offset;
+            this.Lod = 1;
         }
 
         public void Generate()
