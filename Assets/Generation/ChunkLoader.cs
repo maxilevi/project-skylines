@@ -10,7 +10,6 @@ using System.Threading;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.XR.WSA;
 
 
 namespace Assets.Generation
@@ -35,11 +34,9 @@ namespace Assets.Generation
         public ChunkLoader()
         {
             var t1 = new Thread(this.LoadChunks);
-            var t2 = new Thread(this.ManageChunks);
             var t3 = new Thread(this.ManageChunksMesh);
 
             t1.Start();
-            t2.Start();
             t3.Start();
 
             StartCoroutine(FogLerpCoroutine());
@@ -81,7 +78,7 @@ namespace Assets.Generation
                         goto SLEEP;
 
                     Offset = World.ToChunkSpace(Player.transform.position);
-                    if (Offset == Vector3.Zero)
+					if (Offset == Vector3.zero)
                         goto SLEEP;
 
                     if (Offset != _lastOffset)
@@ -147,12 +144,12 @@ namespace Assets.Generation
                                 continue;
                             }
 
-                            if (Chunks[i].IsGenerated && Chunks[i].BuildedWithStructures)
+							if (Chunks[i].IsGenerated && !Chunks[i].ShouldBuild)
                             {
                                 _activeChunks++;
                             }
 
-                            if ((Chunks[i].Position.Xz - Player.Position.Xz).LengthSquared > (GraphicsOptions.ChunkLoaderRadius) * .5f * Chunk.CHUNK_WIDTH * (GraphicsOptions.ChunkLoaderRadius) * .5f * Chunk.CHUNK_WIDTH)
+							if ((Chunks[i].Position - Player.transform.position).sqrMagnitude > (GraphicsOptions.ChunkLoaderRadius) * .5f * Chunk.ChunkSize * (GraphicsOptions.ChunkLoaderRadius) * .5f * Chunk.ChunkSize )
                             {
                                 World.RemoveChunk(Chunks[i]);
                                 continue;
@@ -162,11 +159,11 @@ namespace Assets.Generation
                             if (Chunks[i] != null && Chunks[i].IsGenerated)
                             {
 
-                                float CameraDist = (Chunks[i].Position - transform.position).LengthSquared;
+								float CameraDist = (Chunks[i].Position - transform.position).sqrMagnitude;
 
-                                if (CameraDist > 288 * 288 && CameraDist < 576 * 576 && GraphicsOptions.LOD)
+                                if (CameraDist > 288 * 288 && CameraDist < 576 * 576 && GraphicsOptions.Lod)
                                     Chunks[i].Lod = 2;
-                                else if (CameraDist > 576 * 576 && GraphicsOptions.LOD)
+                                else if (CameraDist > 576 * 576 && GraphicsOptions.Lod)
                                     Chunks[i].Lod = 4;
                                 else
                                     Chunks[i].Lod = 1;
@@ -175,7 +172,7 @@ namespace Assets.Generation
 
                             if (Chunks[i] != null && Chunks[i].IsGenerated !Player.World.MeshQueue.Contains(Chunks[i]) && Chunks[i].ShouldBuild)
                             {
-                               World.AddChunkToQueue(Chunks[i], true);
+                               World.AddToQueue(Chunks[i], true);
                             }
 
                         }

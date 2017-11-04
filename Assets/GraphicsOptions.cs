@@ -9,10 +9,12 @@ namespace Assets
     {
 
         public static int ChunkLoaderRadius { get; set; }
+		public static bool Lod { get; set; }
 
         static GraphicsOptions()
         {
             ChunkLoaderRadius = 20;
+			Lod = true;
         }
     }
 }
