@@ -30,19 +30,23 @@ namespace Assets.Generation
         private Vector3 _lastOffset, _lastOffset2;
         private int _prevChunkCount;
         private float _lastRadius, _lastRadius2;
+		private Vector3 _playerPosition, _position;
 
-        public ChunkLoader()
-        {
-            var t1 = new Thread(this.LoadChunks);
-            var t3 = new Thread(this.ManageChunksMesh);
+		void Awake(){
+			var t1 = new Thread(this.LoadChunks);
+			var t3 = new Thread(this.ManageChunksMesh);
 
-            t1.Start();
-            t3.Start();
+			t1.Start();
+			t3.Start();
 
-            StartCoroutine(FogLerpCoroutine());
+			StartCoroutine(FogLerpCoroutine());
+		}
 
-        }
-        
+		void Update(){
+			_playerPosition = Player.transform.position;
+			_position = transform.position;
+		}
+
         private void UpdateFog(float f1, float f2)
         {
             _targetMax = (float)(Chunk.ChunkSize * Math.Sqrt(_activeChunks) * 2.0f);
@@ -71,32 +75,44 @@ namespace Assets.Generation
         {
             try
             {
-                while (true)
+				while (ThreadManager.isPlaying)
                 {
 
-                    if (!Enabled || World.MeshQueue.Discard)
+                    if (!Enabled || World.Discard)
                         goto SLEEP;
 
-                    Offset = World.ToChunkSpace(Player.transform.position);
+					Offset = World.ToChunkSpace(_playerPosition);
+
 					if (Offset == Vector3.zero)
                         goto SLEEP;
 
                     if (Offset != _lastOffset)
                     {
 
-                        for (int x = -GraphicsOptions.ChunkLoaderRadius / 2; x < GraphicsOptions.ChunkLoaderRadius / 2; x++)
+						for (int _x = -GraphicsOptions.ChunkLoaderRadius / 2; _x < GraphicsOptions.ChunkLoaderRadius / 2; _x++)
                         {
-                            for (int z = -GraphicsOptions.ChunkLoaderRadius / 2; z < GraphicsOptions.ChunkLoaderRadius / 2; z++)
+							for (int _z = -GraphicsOptions.ChunkLoaderRadius / 2; _z < GraphicsOptions.ChunkLoaderRadius / 2; _z++)
                             {
-                                for (int y = -GraphicsOptions.ChunkLoaderRadius / 2; y < GraphicsOptions.ChunkLoaderRadius / 2; y++)
+								for (int _y = -GraphicsOptions.ChunkLoaderRadius / 2; _y < GraphicsOptions.ChunkLoaderRadius / 2; _y++)
                                 {
-
-                                    if (World.GetChunkByOffset(Offset + new Vector3(x, y, z) * new Vector4(Chunk.ChunkSize, Chunk.ChunkSize, Chunk.ChunkSize)) == null)
-                                    {
-                                        Vector3 chunkPos = Offset + new Vector3(x, z) * new Vector3(Chunk.ChunkSize, Chunk.ChunkSize, Chunk.ChunkSize);
-                                        Chunk chunk = new Chunk(chunkPos, World);
-                                        World.AddChunk(chunk);
-                                    }
+									int x = _x, y = _y ,z  = _z;
+									ThreadManager.ExecuteOnMainThread( delegate
+									{
+										if (World.GetChunkByOffset(Offset + Vector3.Scale(new Vector3(x, y, z), new Vector3(Chunk.ChunkSize, Chunk.ChunkSize, Chunk.ChunkSize)) ) == null)
+	                                    {
+											
+											Vector3 chunkPos = Offset + Vector3.Scale(new Vector3(x, y, z), new Vector3(Chunk.ChunkSize, Chunk.ChunkSize, Chunk.ChunkSize));
+											GameObject NewChunk = new GameObject("Chunk "+ (chunkPos.x) + " "+ (chunkPos.y) + " "+ (chunkPos.z) );
+											NewChunk.transform.position = chunkPos;
+											NewChunk.transform.SetParent(World.gameObject.transform);
+											NewChunk.AddComponent<MeshFilter>();
+											NewChunk.AddComponent<MeshRenderer>();
+											Chunk chunk = NewChunk.AddComponent<Chunk>();
+											chunk.Init(chunkPos, World);
+											World.AddChunk(chunkPos, chunk);
+											
+	                                    }
+									});
                                 }
                             }
                         }
@@ -105,7 +121,7 @@ namespace Assets.Generation
 
                     }
                     SLEEP:
-                    Thread.Sleep(500);
+					Thread.Sleep(500);
                 }
             }
             catch (Exception e)
@@ -118,7 +134,7 @@ namespace Assets.Generation
         {
             try
             {
-                while (true)
+				while (ThreadManager.isPlaying)
                 {
                     Thread.Sleep(250);
 
@@ -128,7 +144,7 @@ namespace Assets.Generation
                     Chunk[] Chunks;
                     lock (World.Chunks)
                     {
-                        Chunks = World.Chunks.ToArray();
+						Chunks = World.Chunks.Values.ToList().ToArray();
                     }
 
                     _left += 0.25f;
@@ -149,7 +165,7 @@ namespace Assets.Generation
                                 _activeChunks++;
                             }
 
-							if ((Chunks[i].Position - Player.transform.position).sqrMagnitude > (GraphicsOptions.ChunkLoaderRadius) * .5f * Chunk.ChunkSize * (GraphicsOptions.ChunkLoaderRadius) * .5f * Chunk.ChunkSize )
+							if ((Chunks[i].Position - _playerPosition).sqrMagnitude > (GraphicsOptions.ChunkLoaderRadius) * Chunk.ChunkSize * (GraphicsOptions.ChunkLoaderRadius) * Chunk.ChunkSize  )
                             {
                                 World.RemoveChunk(Chunks[i]);
                                 continue;
@@ -159,7 +175,7 @@ namespace Assets.Generation
                             if (Chunks[i] != null && Chunks[i].IsGenerated)
                             {
 
-								float CameraDist = (Chunks[i].Position - transform.position).sqrMagnitude;
+								float CameraDist = (Chunks[i].Position - _position).sqrMagnitude;
 
                                 if (CameraDist > 288 * 288 && CameraDist < 576 * 576 && GraphicsOptions.Lod)
                                     Chunks[i].Lod = 2;
@@ -170,7 +186,7 @@ namespace Assets.Generation
                             }
 
 
-                            if (Chunks[i] != null && Chunks[i].IsGenerated !Player.World.MeshQueue.Contains(Chunks[i]) && Chunks[i].ShouldBuild)
+							if (Chunks[i] != null && Chunks[i].IsGenerated && !World.ContainsMeshQueue(Chunks[i]) && Chunks[i].ShouldBuild)
                             {
                                World.AddToQueue(Chunks[i], true);
                             }

@@ -34,7 +34,7 @@ namespace Assets.Generation
 		
 		public void Start(){
 			try{
-				while(!Stop){
+				while(ThreadManager.isPlaying && !Stop){
 					Thread.Sleep(GenerationQueue.ThreadTime * GenerationQueue.ThreadCount);
 					if(CurrentChunk != null && !CurrentChunk.Disposed){
 						

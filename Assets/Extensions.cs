@@ -13,6 +13,6 @@ public static class Extensions{
 	}
 
 	public static Vector2 Xz(this Vector3 Input){
-		return new Vector2 (Input.x, Input.y, Input.z);
+		return new Vector2 (Input.x, Input.z);
 	}
 }

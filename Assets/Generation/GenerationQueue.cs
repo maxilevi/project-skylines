@@ -8,7 +8,7 @@ namespace Assets.Generation{
 	
 	public class GenerationQueue {
 
-		public GameObject Player;
+		public GameObject _player;
 		public List<Chunk> Queue = new List<Chunk>();
 		public static int ThreadCount = 2;
 		public const int ThreadTime = 20;
@@ -16,12 +16,13 @@ namespace Assets.Generation{
 		private ClosestChunk _closestChunkComparer = new ClosestChunk();
 		private List<GenerationThread> _threads = new List<GenerationThread>();
 
-		public GenerationQueue(){
+		public GenerationQueue(World World){
 			Thread MainLoop = new Thread(ProccessQueueThread);
 			MainLoop.Start();
 			for(int i = 0; i < ThreadCount; i++){
 				_threads.Add(new GenerationThread());
 			}
+			this._player = World.Player;
 		}
 		
 		public bool Discard;
@@ -30,7 +31,7 @@ namespace Assets.Generation{
 		}
 		
 		private void ProccessQueueThread(){
-			while(true){
+			while(ThreadManager.isPlaying){
 				Thread.Sleep(5);
 				if(!Stop)
 					break;
@@ -43,14 +44,14 @@ namespace Assets.Generation{
 				
 				if(Queue.Count != 0){
 					
-					if(Player != null){
-						_closestChunkComparer.PlayerPos = Player.transform.position;
+					if(_player != null){
+						_closestChunkComparer.PlayerPos = _player.transform.position;
 						
 						lock(Queue){
 							try{
 								Queue.Sort(_closestChunkComparer);
 							}catch(Exception e){
-								Debug.Log("Error while sorting chunks. Retrying...");
+								Debug.Log(e.ToString());
 							}
 						}
 					}

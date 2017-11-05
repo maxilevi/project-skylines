@@ -404,7 +404,7 @@ namespace Assets.Rendering
 				NewTri.P[0] = VertList[TriTable[CubeIndex, i + 0]];
 				NewTri.P[1] = VertList[TriTable[CubeIndex, i + 1]];
 				NewTri.P[2] = VertList[TriTable[CubeIndex, i + 2]];
-				//Log.WriteLine(NewTri.P[0] + " | " + NewTri.P[1] + " | "+ NewTri.P[2]);
+
 				TriangleList.Add(NewTri);
 			}
 			return TriangleList.ToArray();
@@ -412,8 +412,8 @@ namespace Assets.Rendering
 
 		private static Vector3 VertexInterp(double IsoLevel, Vector3 P1, Vector3 P2, double valp1, double valp2)
 		{
-			Vector4 p1 = new Vector4(P1, (float) valp1);
-			Vector4 p2 = new Vector4(P2, (float) valp2);
+			Vector4 p1 = new Vector4(P1.x, P1.y, P1.z, (float) valp1);
+			Vector4 p2 = new Vector4(P2.x, P2.y, P2.z, (float) valp2);
 
 			if (p2.magnitude < p1.magnitude){
 				Vector4 temp;
@@ -423,10 +423,10 @@ namespace Assets.Rendering
 			}
 
 			Vector3 p;
-			if(Math.Abs(p1.W - p2.W) > 0.00001)
-				p = p1.Xyz + (p2.Xyz - p1.Xyz ) / (p2.W - p1.W)*( (float) IsoLevel - p1.W);
+			if(Math.Abs(p1.w - p2.w) > 0.00001)
+				p = p1.Xyz() + (p2.Xyz() - p1.Xyz() ) / (p2.w - p1.w)*( (float) IsoLevel - p1.w);
 			else 
-				p = p1.Xyz;
+				p = p1.Xyz();
 			return p;
 		}
 
@@ -434,7 +434,7 @@ namespace Assets.Rendering
 		{
 			if(Triangles == null) return Data;
 			if(Triangles.Length == 2){ //Make it more aestically pleasing
-				if(Orientation && (Triangles[0].P[1].Xz - Triangles[1].P[1].Xz).LengthSquared == 0 && (Triangles[1].P[0].Xz - Triangles[0].P[2].Xz).LengthSquared == 0){
+				if(Orientation && (Triangles[0].P[1].Xz() - Triangles[1].P[1].Xz()).sqrMagnitude == 0 && (Triangles[1].P[0].Xz() - Triangles[0].P[2].Xz()).sqrMagnitude == 0){
 					Vector3 Vertex0 = Triangles[0].P[2];
 					Vector3 Vertex1 = Triangles[0].P[1];
 					Vector3 Vertex2 = Triangles[1].P[0];
@@ -455,15 +455,15 @@ namespace Assets.Rendering
 			for (uint i = 0; i < Triangles.Length; i++)
 			{
 				if(Triangles[i].P != null){
-					Data.Indices.Add( (uint) Data.Vertices.Count + 0);
-					Data.Indices.Add( (uint) Data.Vertices.Count + 1);
-					Data.Indices.Add( (uint) Data.Vertices.Count + 2);
+					Data.Indices.Add( (ushort) (Data.Vertices.Count + 0));
+					Data.Indices.Add( (ushort) (Data.Vertices.Count + 1));
+					Data.Indices.Add( (ushort) (Data.Vertices.Count + 2));
 
 					Data.Vertices.Add(Triangles[i].P[0]);
 					Data.Vertices.Add(Triangles[i].P[1]);
 					Data.Vertices.Add(Triangles[i].P[2]);
 
-					Vector3 Normal = Mathf.CrossProduct(Triangles[i].P[1] - Triangles[i].P[0], Triangles[i].P[2] - Triangles[i].P[0]).Normalized();
+					Vector3 Normal = Vector3.Cross(Triangles[i].P[1] - Triangles[i].P[0], Triangles[i].P[2] - Triangles[i].P[0]).normalized;
 					Data.Normals.Add(Normal);
 					Data.Normals.Add(Normal);
 					Data.Normals.Add(Normal);
@@ -475,45 +475,14 @@ namespace Assets.Rendering
 			}
 			return Data;
 		}
-
-		public static MarchingData SmoothNormals(MarchingData Data, Dictionary<GridCell, MarchingData> Cache){
-			return null;
-		}
-
-		private static Random Rng = new Random();
-		public static Vector3 Round(this Vector3 Vertex){
-			return Vertex;//new Vector3( (Vertex.X + Vertex.X % 2 * 2f), Vertex.Y, (Vertex.Z + (float) (Vertex.Z % Math.PI * 3f) ));
-		}
-
 	}
 
 	public struct GridCell
 	{
 		public Vector3[] P;
 		public double[] Density;
-		public BlockType[] Type;
-
-		public static GridCell operator +(GridCell Cell1, GridCell Cell2){
-			for(int i = 0; i < Cell1.Density.Length; i++){
-				Cell1.Density[i] += Cell2.Density[i];
-			}
-			return Cell1;
-		}
-
-		public static GridCell operator /(GridCell Cell1, float Divider){
-			for(int i = 0; i < Cell1.Density.Length; i++){
-				Cell1.Density[i] /= Divider;
-			}
-			return Cell1;
-		}
-
-		public static GridCell operator *(GridCell Cell1, float Multiplier){
-			for(int i = 0; i < Cell1.Density.Length; i++){
-				Cell1.Density[i] *= Multiplier;
-			}
-			return Cell1;
-		}
 	}
+
 	public struct Triangle
 	{
 		public Vector3[] P;

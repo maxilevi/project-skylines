@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace Assets.Generation
 {
-	public class Chunk : IDisposable, MonoBehaviour
+	public class Chunk : MonoBehaviour, IDisposable
     {
         public const int ChunkSize = 16;
 		public const int Bitshift = 4;
         public Vector3 Position { get; private set; }
         public bool ShouldBuild { get; private set; }
-		public bool IsGenerated { get; private set; }
+		public bool IsGenerated { get; set; }
         public int Lod { get; set; }
 		public bool Disposed {get; private set; }
 
-        private readonly World _world;
+        private World _world;
         private readonly float[][][] _blocks = new float[ChunkSize][][];
         private readonly WorldGenerator _generator = new WorldGenerator();
 
 
-        public Chunk(Vector3 Position, World World)
+		public void Init(Vector3 Position, World World)
         {
             this._world = World;
 			this.Position = Position;
@@ -40,13 +40,14 @@ namespace Assets.Generation
 			var mesh = this.GetComponent<MeshFilter>().mesh;
 			mesh.Clear ();
 
-			if(completelyBuilded)
+			//if(completelyBuilded)
 		}
 
         public void Dispose()
         {
 			this.Disposed = true;
             this._generator.Dispose();
+			ThreadManager.ExecuteOnMainThread( () => Destroy (this.gameObject) );
         }
     }
 

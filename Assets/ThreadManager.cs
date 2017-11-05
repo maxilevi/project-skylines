@@ -6,6 +6,7 @@ using UnityEngine;
 public class ThreadManager : MonoBehaviour {
 
 	private static List<KeyValuePair<Action, Action>> Functions = new List<KeyValuePair<Action, Action>>();
+	public static bool isPlaying = true;
 		
 	/// <summary>
 	/// Executes the give method on the main thread after a frame has passed.
@@ -28,6 +29,7 @@ public class ThreadManager : MonoBehaviour {
      
      void Update()
      {
+		isPlaying = Application.isPlaying;
      	lock(Functions){
 	        for(int i = Functions.Count-1; i > -1; i--)
 	        {

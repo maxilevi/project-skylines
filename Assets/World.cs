@@ -5,24 +5,47 @@ using UnityEngine;
 
 public class World : MonoBehaviour {
 
-	private readonly Dictionary<Vector3, Chunk> _chunks = new Dictionary<Vector3, Chunk>();
-    private readonly MeshQueue _meshQueue = new MeshQueue();
-    private readonly GenerationQueue _generationQueue = new GenerationQueue();
+	public GameObject Player;
+	public readonly Dictionary<Vector3, Chunk> Chunks = new Dictionary<Vector3, Chunk>();
+	private MeshQueue _meshQueue;
+    private GenerationQueue _generationQueue;
+
+	void Awake(){
+		_meshQueue = new MeshQueue (this);
+		_generationQueue = new GenerationQueue (this);
+	}
+
+	public void AddToQueue(Chunk Chunk, bool DoMesh)
+	{
+		if (DoMesh) {
+			_meshQueue.Add (Chunk);
+		} else {
+			_generationQueue.Queue.Add (Chunk);
+		}
+	}
 
     public void AddChunk(Vector3 Offset, Chunk Chunk)
     {
-        if (!this._chunks.ContainsKey(Offset))
+        if (!this.Chunks.ContainsKey(Offset))
         {
-            this._chunks.Add(Offset, Chunk);
+            this.Chunks.Add(Offset, Chunk);
 			this._generationQueue.Queue.Add(Chunk);
         }
     }
     public void RemoveChunk(Chunk Chunk) { 
-		lock(_chunks){
-			if (_chunks.ContainsKey (Chunk.Position))
-				_chunks.Remove (Chunk.Position);
+		lock(Chunks){
+			if (Chunks.ContainsKey (Chunk.Position))
+				Chunks.Remove (Chunk.Position);
 		}
 		Chunk.Dispose ();
+	}
+
+	public bool ContainsMeshQueue(Chunk chunk){
+		lock(_meshQueue) return _meshQueue.Contains(chunk);
+	}
+
+	public bool ContainsGenerationQueue(Chunk chunk){
+		lock(_generationQueue) return _generationQueue.Queue.Contains(chunk);
 	}
 
     public Vector3 ToBlockSpace(Vector3 Vec3){
@@ -65,18 +88,19 @@ public class World : MonoBehaviour {
 		
 		return new Vector3(ChunkX, ChunkY, ChunkZ);
 	}
-
+	public Chunk GetChunkByOffset(float X, float Y, float Z) {
+		return this.GetChunkByOffset (new Vector3(X,Y,Z));
+	}
     public Chunk GetChunkByOffset(Vector3 Offset) {
-		lock(_chunks){
-			if (_chunks.ContainsKey (Offset))
-				return _chunks [Offset];
+		lock(Chunks){
+			if (Chunks.ContainsKey (Offset))
+				return Chunks [Offset];
 		}
 		return null;
 	}
 
-    public Dictionary<Vector3, Chunk> Chunks
-    {
-        get { return _chunks; }
-    }
+	public bool Discard{
+		get{ return (_meshQueue != null) ? _meshQueue.Discard : true; }
+	}
 
 }
