@@ -30,6 +30,7 @@ namespace Assets.Generation
 			Thread[] Threads = new Thread[ThreadCount];
 			for(int i = 0; i < ThreadCount; i++){
 				Threads[i] = new Thread(Start);
+				Threads[i].IsBackground = true;
 				Threads[i].Start();
 			}
 			this._player = World.Player;
@@ -55,7 +56,7 @@ namespace Assets.Generation
 		public void Start(){
 			try{
 				while(ThreadManager.isPlaying){
-					Thread.Sleep(SleepTime * ThreadCount);
+					ThreadManager.Sleep(SleepTime * ThreadCount);
 					if( Stop)
 						break;
 					

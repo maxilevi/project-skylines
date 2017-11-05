@@ -1,4 +1,4 @@
-﻿/*
+﻿ /*
  * Author: Zaphyk
  * Date: 07/02/2016
  * Time: 07:36 p.m.
@@ -35,6 +35,8 @@ namespace Assets.Generation
 		void Awake(){
 			var t1 = new Thread(this.LoadChunks);
 			var t3 = new Thread(this.ManageChunksMesh);
+			t1.IsBackground = true;
+			t3.IsBackground = true;
 
 			t1.Start();
 			t3.Start();
@@ -73,28 +75,28 @@ namespace Assets.Generation
 
         private void LoadChunks()
         {
-            try
+			while (ThreadManager.isPlaying)
             {
-				while (ThreadManager.isPlaying)
-                {
-
-                    if (!Enabled || World.Discard)
-                        goto SLEEP;
+				
+				try
+				{
+	                if (!Enabled || World.Discard)
+	                    goto SLEEP;
 
 					Offset = World.ToChunkSpace(_playerPosition);
 
 					if (Offset == Vector3.zero)
-                        goto SLEEP;
+	                    goto SLEEP;
 
-                    if (Offset != _lastOffset)
-                    {
+	                if (Offset != _lastOffset)
+	                {
 
 						for (int _x = -GraphicsOptions.ChunkLoaderRadius / 2; _x < GraphicsOptions.ChunkLoaderRadius / 2; _x++)
-                        {
+	                    {
 							for (int _z = -GraphicsOptions.ChunkLoaderRadius / 2; _z < GraphicsOptions.ChunkLoaderRadius / 2; _z++)
-                            {
+	                        {
 								for (int _y = -GraphicsOptions.ChunkLoaderRadius / 2; _y < GraphicsOptions.ChunkLoaderRadius / 2; _y++)
-                                {
+	                            {
 									int x = _x, y = _y ,z  = _z;
 									ThreadManager.ExecuteOnMainThread( delegate
 									{
@@ -113,20 +115,18 @@ namespace Assets.Generation
 											
 	                                    }
 									});
-                                }
-                            }
-                        }
-                        _lastRadius = GraphicsOptions.ChunkLoaderRadius;
-                        _lastOffset = Offset;
+	                            }
+	                        }
+	                    }
+	                    _lastRadius = GraphicsOptions.ChunkLoaderRadius;
+	                    _lastOffset = Offset;
 
-                    }
-                    SLEEP:
-					Thread.Sleep(500);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e.ToString());
+	                }
+	                SLEEP:
+						ThreadManager.Sleep(500);
+				}catch(Exception e){
+					Debug.Log (e.ToString());
+				}
             }
         }
 
@@ -136,7 +136,7 @@ namespace Assets.Generation
             {
 				while (ThreadManager.isPlaying)
                 {
-                    Thread.Sleep(250);
+					ThreadManager.Sleep(250);
 
                     if (!Enabled)
                         continue;

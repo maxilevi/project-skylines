@@ -24,6 +24,7 @@ namespace Assets.Generation
 		{
 			this.IsWorking = false;
 			this.WorkingThread = new Thread(Start);
+			this.WorkingThread.IsBackground = true;
 			this.WorkingThread.Start();
 		}
 		
@@ -35,7 +36,7 @@ namespace Assets.Generation
 		public void Start(){
 			try{
 				while(ThreadManager.isPlaying && !Stop){
-					Thread.Sleep(GenerationQueue.ThreadTime * GenerationQueue.ThreadCount);
+					ThreadManager.Sleep(GenerationQueue.ThreadTime * GenerationQueue.ThreadCount);
 					if(CurrentChunk != null && !CurrentChunk.Disposed){
 						
 						if(!CurrentChunk.IsGenerated){

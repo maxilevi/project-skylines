@@ -18,6 +18,7 @@ namespace Assets.Generation{
 
 		public GenerationQueue(World World){
 			Thread MainLoop = new Thread(ProccessQueueThread);
+			MainLoop.IsBackground = true;
 			MainLoop.Start();
 			for(int i = 0; i < ThreadCount; i++){
 				_threads.Add(new GenerationThread());
@@ -32,7 +33,7 @@ namespace Assets.Generation{
 		
 		private void ProccessQueueThread(){
 			while(ThreadManager.isPlaying){
-				Thread.Sleep(5);
+				ThreadManager.Sleep(5);
 				if(!Stop)
 					break;
 				

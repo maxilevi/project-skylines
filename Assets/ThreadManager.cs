@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,18 @@ public class ThreadManager : MonoBehaviour {
       		Functions.Add( new KeyValuePair<Action, Action>(func, Callback));
      	}
      }
+
+	 /// <summary>
+	 /// Custom sleep method
+	 /// </summary>
+	 public static void Sleep(int Milliseconds){
+		long start = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+		while(true){
+			long now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+			if (now - start >= Milliseconds)
+				break;
+		}
+	 }
       
 	 private static void NullCallBack(){}
      
