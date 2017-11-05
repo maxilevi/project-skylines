@@ -6,7 +6,7 @@ using System;
 
 namespace Assets.Generation{
 	
-	public class GenerationQueue {
+	public class GenerationQueue{
 
 		public World _world;
 		public List<Chunk> Queue = new List<Chunk>();
@@ -17,9 +17,7 @@ namespace Assets.Generation{
 		private List<GenerationThread> _threads = new List<GenerationThread>();
 
 		public GenerationQueue(World World){
-			Thread MainLoop = new Thread(ProccessQueueThread);
-			MainLoop.IsBackground = true;
-			MainLoop.Start();
+			
 			for(int i = 0; i < ThreadCount; i++){
 				_threads.Add(new GenerationThread(this));
 			}
@@ -31,12 +29,12 @@ namespace Assets.Generation{
 			Discard = true;
 		}
 		
-		private void ProccessQueueThread(){
+		public IEnumerator Start(){
 			while(true){
 				if(Stop)
 					break;
 				
-				ThreadManager.Sleep(5);
+				yield return null;
 				
 				if(Discard){
 					Queue.Clear();

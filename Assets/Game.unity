@@ -313,6 +313,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 729518478}
+  WorldMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  PlayerPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &1880731489
 Transform:
   m_ObjectHideFlags: 0

@@ -333,7 +333,7 @@ namespace Assets.Rendering
 		}
 		#endregion
 
-		public static VertexData Process(double IsoLevel, GridCell Cell, Vector4 Color, bool Orientation, VertexData Data)
+		public static VertexData Process(double IsoLevel, GridCell Cell, Color Color, bool Orientation, VertexData Data)
 		{
 			return Build( Data, Color, Polygonise(Cell, IsoLevel), Orientation);
 		}
@@ -430,10 +430,10 @@ namespace Assets.Rendering
 			return p;
 		}
 
-		private static VertexData Build(VertexData Data, Vector4 TemplateColor, Triangle[] Triangles, bool Orientation)
+		private static VertexData Build(VertexData Data, Color TemplateColor, Triangle[] Triangles, bool Orientation)
 		{
 			if(Triangles == null) return Data;
-			if(Triangles.Length == 2){ //Make it more aestically pleasing
+			/*if(Triangles.Length == 2){ //Make it more aestically pleasing
 				if(Orientation && (Triangles[0].P[1].Xz() - Triangles[1].P[1].Xz()).sqrMagnitude == 0 && (Triangles[1].P[0].Xz() - Triangles[0].P[2].Xz()).sqrMagnitude == 0){
 					Vector3 Vertex0 = Triangles[0].P[2];
 					Vector3 Vertex1 = Triangles[0].P[1];
@@ -449,15 +449,15 @@ namespace Assets.Rendering
 					Triangles[1].P[2] = Vertex2;
 
 				}
-			}
+			}*/
 
 
 			for (uint i = 0; i < Triangles.Length; i++)
 			{
 				if(Triangles[i].P != null){
-					Data.Indices.Add( (ushort) (Data.Vertices.Count + 0));
-					Data.Indices.Add( (ushort) (Data.Vertices.Count + 1));
-					Data.Indices.Add( (ushort) (Data.Vertices.Count + 2));
+					Data.Indices.Add( (int) (Data.Vertices.Count + 0));
+					Data.Indices.Add( (int) (Data.Vertices.Count + 1));
+					Data.Indices.Add( (int) (Data.Vertices.Count + 2));
 
 					Data.Vertices.Add(Triangles[i].P[0]);
 					Data.Vertices.Add(Triangles[i].P[1]);

@@ -60,7 +60,6 @@ namespace Assets.Generation
 						break;
 					
 					ThreadManager.Sleep(SleepTime * ThreadCount);
-
 					
 					lock(Queue){
 						if(Discard){

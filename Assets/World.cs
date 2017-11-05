@@ -6,6 +6,7 @@ using UnityEngine;
 public class World : MonoBehaviour {
 
 	public GameObject Player;
+	public Material WorldMaterial;
 	public Vector3 PlayerPosition;
 	public readonly Dictionary<Vector3, Chunk> Chunks = new Dictionary<Vector3, Chunk>();
 	private MeshQueue _meshQueue;
@@ -14,6 +15,7 @@ public class World : MonoBehaviour {
 	void Awake(){
 		_meshQueue = new MeshQueue (this);
 		_generationQueue = new GenerationQueue (this);
+		StartCoroutine(_generationQueue.Start());
 	}
 
 	void Update(){
