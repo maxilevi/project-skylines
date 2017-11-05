@@ -71,7 +71,7 @@ namespace Assets.Generation
 						if(Queue.Count != 0 ){
 							
 							if(_player != null){
-								_closestChunkComparer.PlayerPos = _player.gameObject.transform.position;
+								_closestChunkComparer.PlayerPos = _world.PlayerPosition;
 								lock(Queue)
 									Queue.Sort(_closestChunkComparer);
 							}

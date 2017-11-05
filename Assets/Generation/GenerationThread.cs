@@ -33,6 +33,7 @@ namespace Assets.Generation
 		public void Generate(Chunk c){
 			IsWorking = true;
 			CurrentChunk = c;
+
 		}
 		
 		public void Start(){

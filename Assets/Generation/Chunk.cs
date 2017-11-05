@@ -8,9 +8,9 @@ namespace Assets.Generation
         public const int ChunkSize = 16;
 		public const int Bitshift = 4;
         public Vector3 Position { get; private set; }
-        public bool ShouldBuild { get; private set; }
-		public bool IsGenerated { get; set; }
-        public int Lod { get; set; }
+		public bool ShouldBuild;
+		public bool IsGenerated;
+		public int Lod;
 		public bool Disposed {get; private set; }
 
         private World _world;

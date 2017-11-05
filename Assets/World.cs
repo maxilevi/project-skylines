@@ -6,6 +6,7 @@ using UnityEngine;
 public class World : MonoBehaviour {
 
 	public GameObject Player;
+	public Vector3 PlayerPosition;
 	public readonly Dictionary<Vector3, Chunk> Chunks = new Dictionary<Vector3, Chunk>();
 	private MeshQueue _meshQueue;
     private GenerationQueue _generationQueue;
@@ -13,6 +14,10 @@ public class World : MonoBehaviour {
 	void Awake(){
 		_meshQueue = new MeshQueue (this);
 		_generationQueue = new GenerationQueue (this);
+	}
+
+	void Update(){
+		PlayerPosition = Player.transform.position;
 	}
 
 	void OnApplicationQuit(){
@@ -31,11 +36,12 @@ public class World : MonoBehaviour {
 
     public void AddChunk(Vector3 Offset, Chunk Chunk)
     {
-        if (!this.Chunks.ContainsKey(Offset))
-        {
-            this.Chunks.Add(Offset, Chunk);
-			this._generationQueue.Queue.Add(Chunk);
-        }
+		lock (this.Chunks) {
+			if (!this.Chunks.ContainsKey (Offset)) {
+				this.Chunks.Add (Offset, Chunk);
+				this._generationQueue.Queue.Add (Chunk);
+			}
+		}
     }
     public void RemoveChunk(Chunk Chunk) { 
 		lock(Chunks){

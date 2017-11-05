@@ -8,7 +8,7 @@ namespace Assets.Generation{
 	
 	public class GenerationQueue {
 
-		public GameObject _player;
+		public World _world;
 		public List<Chunk> Queue = new List<Chunk>();
 		public static int ThreadCount = 1;
 		public const int ThreadTime = 20;
@@ -23,7 +23,7 @@ namespace Assets.Generation{
 			for(int i = 0; i < ThreadCount; i++){
 				_threads.Add(new GenerationThread(this));
 			}
-			this._player = World.Player;
+			this._world = World;
 		}
 		
 		public bool Discard;
@@ -45,9 +45,9 @@ namespace Assets.Generation{
 				}
 				
 				if(Queue.Count != 0){
-					
-					if(_player != null){
-						_closestChunkComparer.PlayerPos = _player.transform.position;
+
+					if(_world.Player != null){
+						_closestChunkComparer.PlayerPos = _world.PlayerPosition;
 						
 						lock(Queue){
 							try{
@@ -65,7 +65,6 @@ namespace Assets.Generation{
 					for(int i = 0; i < _threads.Count; i++){
 						if(!_threads[i].IsWorking && Queue.Count != 0){
 							_threads[i].Generate(Queue[0]);
-							Queue[0].IsGenerated = true;
 							Queue.RemoveAt(0);
 						}
 					}

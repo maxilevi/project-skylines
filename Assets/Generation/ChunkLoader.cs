@@ -198,6 +198,7 @@ namespace Assets.Generation
 
 							if (Chunks[i] != null && Chunks[i].IsGenerated && !World.ContainsMeshQueue(Chunks[i]) && Chunks[i].ShouldBuild)
                             {
+
                                World.AddToQueue(Chunks[i], true);
                             }
 
@@ -213,7 +214,7 @@ namespace Assets.Generation
             }
             catch (Exception e)
             {
-                Debug.Log(e.ToString());
+				ThreadManager.ExecuteOnMainThread( () => Debug.Log(e.ToString()) );
             }
         }
     }
