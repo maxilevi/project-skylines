@@ -24,9 +24,9 @@ public class ThreadManager : MonoBehaviour {
      	}
      }
       
-	private static void NullCallBack(){}
+	 private static void NullCallBack(){}
      
-     public static void Update()
+     void Update()
      {
      	lock(Functions){
 	        for(int i = Functions.Count-1; i > -1; i--)

@@ -6,6 +6,7 @@ namespace Assets.Generation
 	public class Chunk : IDisposable, MonoBehaviour
     {
         public const int ChunkSize = 16;
+		public const int Bitshift = 4;
         public Vector3 Position { get; private set; }
         public bool ShouldBuild { get; private set; }
 		public bool IsGenerated { get; private set; }
@@ -27,7 +28,7 @@ namespace Assets.Generation
         public void Generate()
         {
             this._generator.BuildArray(this._blocks);
-            this._generator.Generate(this._blocks, Offset);
+			this._generator.Generate(this._blocks, this.Position);
 			this.IsGenerated = true;
 
             this.ShouldBuild = true;

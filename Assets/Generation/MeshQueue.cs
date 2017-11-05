@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeshQueue : MonoBehaviour {
+public class MeshQueue {
 
 	// Use this for initialization
 	void Start () {
