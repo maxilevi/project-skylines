@@ -10,7 +10,7 @@ namespace Assets.Generation{
 
 		public GameObject _player;
 		public List<Chunk> Queue = new List<Chunk>();
-		public static int ThreadCount = 2;
+		public static int ThreadCount = 1;
 		public const int ThreadTime = 20;
 		public bool Stop {get; set;}
 		private ClosestChunk _closestChunkComparer = new ClosestChunk();
@@ -21,7 +21,7 @@ namespace Assets.Generation{
 			MainLoop.IsBackground = true;
 			MainLoop.Start();
 			for(int i = 0; i < ThreadCount; i++){
-				_threads.Add(new GenerationThread());
+				_threads.Add(new GenerationThread(this));
 			}
 			this._player = World.Player;
 		}
@@ -32,10 +32,11 @@ namespace Assets.Generation{
 		}
 		
 		private void ProccessQueueThread(){
-			while(ThreadManager.isPlaying){
-				ThreadManager.Sleep(5);
-				if(!Stop)
+			while(true){
+				if(Stop)
 					break;
+				
+				ThreadManager.Sleep(5);
 				
 				if(Discard){
 					Queue.Clear();

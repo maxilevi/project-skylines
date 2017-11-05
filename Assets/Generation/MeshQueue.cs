@@ -20,7 +20,7 @@ namespace Assets.Generation
 	{
 		public GameObject _player;
 		public const int SleepTime = 5;
-		public const int ThreadCount = 2;
+		public const int ThreadCount = 1;
 		public List<Chunk> Queue = new List<Chunk>();
 		public bool Stop {get; set;}
 		private World _world;
@@ -55,10 +55,12 @@ namespace Assets.Generation
 		
 		public void Start(){
 			try{
-				while(ThreadManager.isPlaying){
-					ThreadManager.Sleep(SleepTime * ThreadCount);
+				while(true){
 					if( Stop)
 						break;
+					
+					ThreadManager.Sleep(SleepTime * ThreadCount);
+
 					
 					lock(Queue){
 						if(Discard){

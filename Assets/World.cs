@@ -15,6 +15,11 @@ public class World : MonoBehaviour {
 		_generationQueue = new GenerationQueue (this);
 	}
 
+	void OnApplicationQuit(){
+		_meshQueue.Stop = true;
+		_generationQueue.Stop = true;
+	}
+
 	public void AddToQueue(Chunk Chunk, bool DoMesh)
 	{
 		if (DoMesh) {

@@ -31,17 +31,23 @@ namespace Assets.Generation
         private int _prevChunkCount;
         private float _lastRadius, _lastRadius2;
 		private Vector3 _playerPosition, _position;
+		private Thread _t1, _t2;
+		private bool Stop;
 
 		void Awake(){
-			var t1 = new Thread(this.LoadChunks);
-			var t3 = new Thread(this.ManageChunksMesh);
-			t1.IsBackground = true;
-			t3.IsBackground = true;
+			_t1 = new Thread(this.LoadChunks);
+			_t2 = new Thread(this.ManageChunksMesh);
+			_t1.IsBackground = true;
+			_t2.IsBackground = true;
 
-			t1.Start();
-			t3.Start();
+			_t1.Start();
+			_t2.Start();
 
 			StartCoroutine(FogLerpCoroutine());
+		}
+
+		void OnApplicationQuit(){
+			Stop = true;
 		}
 
 		void Update(){
@@ -75,11 +81,13 @@ namespace Assets.Generation
 
         private void LoadChunks()
         {
-			while (ThreadManager.isPlaying)
+			while (true)
             {
 				
 				try
 				{
+					if(Stop) break;
+
 	                if (!Enabled || World.Discard)
 	                    goto SLEEP;
 
@@ -134,8 +142,10 @@ namespace Assets.Generation
         {
             try
             {
-				while (ThreadManager.isPlaying)
+				while (true)
                 {
+					if(Stop) break;
+
 					ThreadManager.Sleep(250);
 
                     if (!Enabled)

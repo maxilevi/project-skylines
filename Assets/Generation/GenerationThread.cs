@@ -17,15 +17,17 @@ namespace Assets.Generation
 	{
 		public Thread WorkingThread;
 		public bool IsWorking{ get; set;}
-		public bool Stop;
+		private GenerationQueue _queue;
 		
 		public Chunk CurrentChunk = null;
-		public GenerationThread()
+		public GenerationThread(GenerationQueue _queue)
 		{
+			this._queue = _queue;
 			this.IsWorking = false;
 			this.WorkingThread = new Thread(Start);
 			this.WorkingThread.IsBackground = true;
 			this.WorkingThread.Start();
+
 		}
 		
 		public void Generate(Chunk c){
@@ -35,7 +37,9 @@ namespace Assets.Generation
 		
 		public void Start(){
 			try{
-				while(ThreadManager.isPlaying && !Stop){
+				while(true){
+					if(_queue.Stop) break;
+
 					ThreadManager.Sleep(GenerationQueue.ThreadTime * GenerationQueue.ThreadCount);
 					if(CurrentChunk != null && !CurrentChunk.Disposed){
 						
