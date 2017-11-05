@@ -433,7 +433,7 @@ namespace Assets.Rendering
 		private static VertexData Build(VertexData Data, Color TemplateColor, Triangle[] Triangles, bool Orientation)
 		{
 			if(Triangles == null) return Data;
-			/*if(Triangles.Length == 2){ //Make it more aestically pleasing
+			if(Triangles.Length == 2){ //Make it more aestically pleasing
 				if(Orientation && (Triangles[0].P[1].Xz() - Triangles[1].P[1].Xz()).sqrMagnitude == 0 && (Triangles[1].P[0].Xz() - Triangles[0].P[2].Xz()).sqrMagnitude == 0){
 					Vector3 Vertex0 = Triangles[0].P[2];
 					Vector3 Vertex1 = Triangles[0].P[1];
@@ -449,7 +449,7 @@ namespace Assets.Rendering
 					Triangles[1].P[2] = Vertex2;
 
 				}
-			}*/
+			}
 
 
 			for (uint i = 0; i < Triangles.Length; i++)
