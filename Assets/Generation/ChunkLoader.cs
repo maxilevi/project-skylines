@@ -96,13 +96,13 @@ namespace Assets.Generation
                     {
 						for (int _z = -GraphicsOptions.ChunkLoaderRadius / 2; _z < GraphicsOptions.ChunkLoaderRadius / 2; _z++)
                         {
-							for (int _y = -GraphicsOptions.ChunkLoaderRadius / 2; _y < GraphicsOptions.ChunkLoaderRadius / 2; _y++)
+							for (int _y = -6; _y < 6; _y++)
                             {
 								int x = _x, y = _y ,z  = _z;
 
 								if (World.GetChunkByOffset(Offset + Vector3.Scale(new Vector3(x, y, z), new Vector3(Chunk.ChunkSize, Chunk.ChunkSize, Chunk.ChunkSize)) ) == null)
                                 {
-									
+
 									Vector3 chunkPos = Offset + Vector3.Scale(new Vector3(x, y, z), new Vector3(Chunk.ChunkSize, Chunk.ChunkSize, Chunk.ChunkSize));
 									GameObject NewChunk = new GameObject("Chunk "+ (chunkPos.x) + " "+ (chunkPos.y) + " "+ (chunkPos.z) );
 									NewChunk.transform.position = chunkPos;
@@ -112,7 +112,6 @@ namespace Assets.Generation
 									Chunk chunk = NewChunk.AddComponent<Chunk>();
 									chunk.Init(chunkPos, World);
 									World.AddChunk(chunkPos, chunk);
-									
                                 }
                             }
                         }
@@ -142,7 +141,7 @@ namespace Assets.Generation
                 {
 					Chunks = World.Chunks.Values.ToList().ToArray();
                 }
-
+				yield return null;
                 _left += 0.25f;
 
                 if (_left >= 1.5f)
@@ -184,6 +183,7 @@ namespace Assets.Generation
 
 						if (Chunks[i] != null && Chunks[i].IsGenerated && !World.ContainsMeshQueue(Chunks[i]) && Chunks[i].ShouldBuild)
                         {
+							yield return null;
 
                            World.AddToQueue(Chunks[i], true);
                         }

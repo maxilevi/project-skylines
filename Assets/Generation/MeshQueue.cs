@@ -59,7 +59,7 @@ namespace Assets.Generation
 					if( Stop)
 						break;
 					
-					ThreadManager.Sleep(SleepTime * ThreadCount);
+					//ThreadManager.Sleep(SleepTime * ThreadCount);
 					
 					lock(Queue){
 						if(Discard){

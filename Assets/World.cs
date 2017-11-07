@@ -8,11 +8,13 @@ public class World : MonoBehaviour {
 	public GameObject Player;
 	public Material WorldMaterial;
 	public Vector3 PlayerPosition;
+	public int GenQueue, MeshQueue;
 	public readonly Dictionary<Vector3, Chunk> Chunks = new Dictionary<Vector3, Chunk>();
 	private MeshQueue _meshQueue;
     private GenerationQueue _generationQueue;
 
 	void Awake(){
+		Application.targetFrameRate = -1;
 		_meshQueue = new MeshQueue (this);
 		_generationQueue = new GenerationQueue (this);
 		StartCoroutine(_generationQueue.Start());
@@ -20,6 +22,8 @@ public class World : MonoBehaviour {
 
 	void Update(){
 		PlayerPosition = Player.transform.position;
+		GenQueue = _generationQueue.Queue.Count;
+		MeshQueue = _meshQueue.Queue.Count;
 	}
 
 	void OnApplicationQuit(){

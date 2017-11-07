@@ -1,16 +1,16 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Controls.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Generation\GenerationQueue.cs">
     <Files>
-      <File FileName="Assets\Generation\MeshQueue.cs" Line="72" Column="18" />
-      <File FileName="Assets\MarchingCubes.cs" Line="452" Column="5" />
-      <File FileName="Assets\Generation\GenerationQueue.cs" Line="33" Column="16" />
+      <File FileName="Assets\Generation\MeshQueue.cs" Line="1" Column="1" />
+      <File FileName="Assets\MarchingCubes.cs" Line="1" Column="1" />
+      <File FileName="Assets\Generation\GenerationQueue.cs" Line="12" Column="48" />
       <File FileName="Assets\Generation\GenerationThread.cs" Line="28" Column="6" />
-      <File FileName="Assets\Generation\Chunk.cs" Line="155" Column="39" />
-      <File FileName="Assets\VertexData.cs" Line="11" Column="42" />
-      <File FileName="Assets\Generation\WorldGenerator.cs" Line="23" Column="48" />
-      <File FileName="Assets\World.cs" Line="52" Column="4" />
-      <File FileName="Assets\Controls.cs" Line="14" Column="48" />
+      <File FileName="Assets\Generation\Chunk.cs" Line="1" Column="1" />
+      <File FileName="Assets\VertexData.cs" Line="1" Column="1" />
+      <File FileName="Assets\Generation\WorldGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets\World.cs" Line="1" Column="1" />
+      <File FileName="Assets\Controls.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

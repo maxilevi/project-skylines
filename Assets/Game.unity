@@ -433,11 +433,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tweakMode: 0
   screenBlendMode: 1
-  hdr: 0
-  sepBlurSpread: 2.5
+  hdr: 2
+  sepBlurSpread: 0.1
   quality: 1
-  bloomIntensity: 0.5
-  bloomThreshold: 0.5
+  bloomIntensity: 2
+  bloomThreshold: 0.2
   bloomThresholdColor: {r: 1, g: 1, b: 1, a: 1}
   bloomBlurIterations: 2
   hollywoodFlareBlurIterations: 2
@@ -470,7 +470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  intensity: 0.036
+  intensity: 0.35
   chromaticAberration: 0.2
   axialAberration: 0.5
   blur: 0
@@ -580,6 +580,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1880731489}
   - component: {fileID: 1880731488}
+  - component: {fileID: 1880731490}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -601,6 +602,8 @@ MonoBehaviour:
   Player: {fileID: 729518478}
   WorldMaterial: {fileID: 2100000, guid: 5ce0ae9e898316748a10f8301b89b052, type: 2}
   PlayerPosition: {x: 0, y: 0, z: 0}
+  GenQueue: 0
+  MeshQueue: 0
 --- !u!4 &1880731489
 Transform:
   m_ObjectHideFlags: 0
@@ -614,3 +617,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1880731490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1880731487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b4f6d2a2b3f02443804b9930b36c1b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Terrain: {fileID: 2100000, guid: 5ce0ae9e898316748a10f8301b89b052, type: 2}
+  PossibleColors:
+  - {r: 1, g: 0.39215687, b: 0, a: 1}
+  - {r: 0.53103447, g: 0, b: 1, a: 0}
+  - {r: 1, g: 0, b: 0.8896551, a: 0}
+  - {r: 0, g: 1, b: 1, a: 0}
+  - {r: 0.07586217, g: 1, b: 0, a: 0}
+  CurrentColor: {r: 1, g: 0.39215687, b: 0, a: 1}
+  MaxThickness: 0.3
+  MinThickness: 0.15
