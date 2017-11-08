@@ -5,3 +5,4 @@ ProjectSettings
 /*.sln
 .vs
 WireframeShader
+/Assets/WireframeShader.meta

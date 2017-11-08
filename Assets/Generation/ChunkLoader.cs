@@ -109,6 +109,7 @@ namespace Assets.Generation
 									NewChunk.transform.SetParent(World.gameObject.transform);
 									NewChunk.AddComponent<MeshFilter>();
 									NewChunk.AddComponent<MeshRenderer>();
+									NewChunk.AddComponent<MeshCollider> ();
 									Chunk chunk = NewChunk.AddComponent<Chunk>();
 									chunk.Init(chunkPos, World);
 									World.AddChunk(chunkPos, chunk);

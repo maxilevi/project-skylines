@@ -6,10 +6,10 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Terrain
-  m_Shader: {fileID: 4800000, guid: f41b97872ce3bba439516a22765e895b, type: 3}
-  m_ShaderKeywords: _AA_ON _ALPHATEST_ON _EMISSION _FADE_ON _GLOW_ON _MODE_BARY _QUAD_ON
-    _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _WLIGHT_SURFACE _WSTYLE_DEFAULT _WUV_UV0
+  m_Name: Ship1
+  m_Shader: {fileID: 4800000, guid: 2f1a6e4a47a2cf7439ccf35a179a2d97, type: 3}
+  m_ShaderKeywords: _AA_ON _ALPHATEST_ON _GLOW_ON _MODE_DEFAULT _QUAD_ON _WLIGHT_SURFACE
+    _WSTYLE_DEFAULT _WUV_UV0
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -65,21 +65,21 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AASmooth: 1.6
+    - _AASmooth: 1.5
     - _BumpScale: 1
     - _Cull: 2
-    - _Cutoff: 0.8
+    - _Cutoff: 0.518
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FDist: 0.009000001
-    - _FMode: 0
-    - _FPow: 6
-    - _Fade: 1
-    - _Fold: 31
-    - _GDist: 0.16
-    - _GEmission: 1.05
-    - _GPower: 1.25
-    - _GlossMapScale: 0
+    - _FDist: 0.1
+    - _FMode: 1
+    - _FPow: 5
+    - _Fade: 0
+    - _Fold: 7
+    - _GDist: 0.35
+    - _GEmission: 0
+    - _GPower: 0.5
+    - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Glow: 1
@@ -89,26 +89,24 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Quad: 1
-    - _SmoothnessTextureChannel: 1
+    - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _TwoSided: 0
     - _UVSec: 0
-    - _WEmission: 3
-    - _WGloss: 0
-    - _WInvert: 2
+    - _WEmission: 0
+    - _WInvert: 0
     - _WLight: 0
-    - _WMetal: 0
-    - _WMode: 3
+    - _WMode: 0
     - _WOpacity: 1
     - _WParam: 0
     - _WStyle: 0
-    - _WThickness: 0.06600001
-    - _WTransparency: 0
+    - _WThickness: 0.18150002
+    - _WTransparency: 0.43
     - _WUV: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.39215687, b: 0, a: 1}
-    - _EmissionColor: {r: 1, g: 0.39215687, b: 0, a: 1}
-    - _GColor: {r: 1, g: 0.39215687, b: 0, a: 1}
-    - _WColor: {r: 1, g: 0.39215687, b: 0, a: 1}
+    - _Color: {r: 0.32352942, g: 0.32352942, b: 0.32352942, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GColor: {r: 0, g: 0, b: 0, a: 1}
+    - _WColor: {r: 0, g: 0, b: 0, a: 1}

@@ -6,16 +6,14 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Terrain
-  m_Shader: {fileID: 4800000, guid: f41b97872ce3bba439516a22765e895b, type: 3}
-  m_ShaderKeywords: _AA_ON _ALPHATEST_ON _EMISSION _FADE_ON _GLOW_ON _MODE_BARY _QUAD_ON
-    _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _WLIGHT_SURFACE _WSTYLE_DEFAULT _WUV_UV0
+  m_Name: Ship_2
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2450
-  stringTagMap:
-    RenderType: TransparentCutout
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -56,59 +54,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _WMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _WTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AASmooth: 1.6
     - _BumpScale: 1
-    - _Cull: 2
-    - _Cutoff: 0.8
+    - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FDist: 0.009000001
-    - _FMode: 0
-    - _FPow: 6
-    - _Fade: 1
-    - _Fold: 31
-    - _GDist: 0.16
-    - _GEmission: 1.05
-    - _GPower: 1.25
-    - _GlossMapScale: 0
-    - _Glossiness: 0.5
+    - _GlossMapScale: 1
+    - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Glow: 1
-    - _Limits: 1
     - _Metallic: 0
-    - _Mode: 1
+    - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Quad: 1
-    - _SmoothnessTextureChannel: 1
+    - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _TwoSided: 0
     - _UVSec: 0
-    - _WEmission: 3
-    - _WGloss: 0
-    - _WInvert: 2
-    - _WLight: 0
-    - _WMetal: 0
-    - _WMode: 3
-    - _WOpacity: 1
-    - _WParam: 0
-    - _WStyle: 0
-    - _WThickness: 0.06600001
-    - _WTransparency: 0
-    - _WUV: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.39215687, b: 0, a: 1}
-    - _EmissionColor: {r: 1, g: 0.39215687, b: 0, a: 1}
-    - _GColor: {r: 1, g: 0.39215687, b: 0, a: 1}
-    - _WColor: {r: 1, g: 0.39215687, b: 0, a: 1}
+    - _Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
