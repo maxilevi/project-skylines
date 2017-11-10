@@ -15,7 +15,7 @@ public class ShipCollision : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		Time.timeScale = .25f;
+		//Instantiate ();
 		//Destroy (this);
 	}
 }
