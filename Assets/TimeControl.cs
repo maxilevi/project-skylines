@@ -14,8 +14,21 @@ public class TimeControl : MonoBehaviour {
 	public Camera View;
 	public Text Score;
 	private float _score;
+	public bool Lost = false;
+	public RectTransform GameOver;
+	private Vector2 _targetGameOver;
+
+	public void Lose(){
+		Lost = true;
+		Time.timeScale = .25f;
+		_targetGameOver = Vector2.one * .5f;
+	}
 
 	void Update(){
+		GameOver.localScale = Lerp(GameOver.localScale, _targetGameOver, Time.deltaTime * 4f * (1/Time.timeScale));
+
+		if (Lost)
+			return;
 
 		if(Input.GetKey(KeyCode.Space) && EnergyLeft > 0 && !WasPressed){
 			EnergyLeft -= Time.deltaTime * EnergyUsage * (1/Time.timeScale);

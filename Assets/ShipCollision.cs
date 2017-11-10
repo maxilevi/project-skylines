@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class ShipCollision : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public TimeControl Control;
+	public GameObject Model;
+	public Movement Controls;
+	private bool _lock = false;
+
+	public void Reset(){
+		_lock = false;
 	}
 
 	void OnCollisionEnter(Collision col){
-		//Instantiate ();
-		//Destroy (this);
+		if (_lock)
+			return;
+
+		Controls.Lock ();
+		Control.Lose ();
+		Model.AddComponent<Explode> ();
+		_lock = true;
 	}
 }

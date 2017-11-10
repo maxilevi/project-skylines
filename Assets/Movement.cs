@@ -9,10 +9,21 @@ public class Movement : MonoBehaviour {
 	public Color TrailColor;
 	public Vector3 LeftPosition, RightPosition;
 	public Material TrailMaterial;
+	private bool _lock;
 
-	
+	public void Lock(){
+		_lock = true;
+	}
+
+	public void Unlock(){
+		_lock = false;
+	}
+
 	// Update is called once per frame
 	void Update () {
+		if (_lock)
+			return;
+		
 		transform.parent.position += transform.forward * Time.deltaTime * 4 * Speed;
         transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(Vector3.zero), Time.deltaTime * 1.5f);
 

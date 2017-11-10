@@ -6,12 +6,11 @@ using System.Collections;
 public class Explode : MonoBehaviour
 {
 
-	void Update(){
-		if(Input.GetMouseButtonDown(0))
-		StartCoroutine(SplitMesh());
+	void Start(){
+		SplitMesh();
 	}
 
-	IEnumerator SplitMesh ()
+	void SplitMesh ()
 	{
 		MeshFilter MF = GetComponent<MeshFilter>();
 		MeshRenderer MR = GetComponent<MeshRenderer>();
@@ -47,16 +46,13 @@ public class Explode : MonoBehaviour
 				GO.AddComponent<MeshRenderer>().material = MR.materials[submesh];
 				GO.AddComponent<MeshFilter>().mesh = mesh;
 				GO.AddComponent<BoxCollider>();
-				GO.AddComponent<Rigidbody>().AddExplosionForce(100, transform.position, 30);
+				GO.AddComponent<Rigidbody>().AddExplosionForce(20, transform.position, 30);
 
 				Destroy(GO, 5 + Random.Range(0.0f, 5.0f));
 			}
 		}
 		MR.enabled = false;
 
-		Time.timeScale = 0.2f;
-		yield return new WaitForSeconds(0.8f);
-		Time.timeScale = 1.0f;
-		Destroy(gameObject);
+		Destroy(this.gameObject);
 	}
 }
