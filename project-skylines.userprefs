@@ -1,12 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Controls.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MaterialManager.cs">
     <Files>
-      <File FileName="Assets\Controls.cs" Line="26" Column="29" />
-      <File FileName="Assets\Generation\ChunkLoader.cs" Line="99" Column="32" />
-      <File FileName="Assets\Generation\GenerationQueue.cs" Line="36" Column="1" />
-      <File FileName="Assets\World.cs" Line="20" Column="1" />
-      <File FileName="Assets\Generation\GenerationThread.cs" Line="44" Column="6" />
+      <File FileName="Assets\Generation\ChunkLoader.cs" Line="1" Column="1" />
+      <File FileName="Assets\Generation\GenerationQueue.cs" Line="1" Column="1" />
+      <File FileName="Assets\World.cs" Line="1" Column="1" />
+      <File FileName="Assets\Generation\GenerationThread.cs" Line="1" Column="1" />
+      <File FileName="Assets\Movement.cs" Line="17" Column="3" />
+      <File FileName="Assets\MaterialManager.cs" Line="18" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
