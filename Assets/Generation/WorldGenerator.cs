@@ -20,7 +20,7 @@ namespace Assets.Generation
 
         public void Generate(float[][][] Densities, Vector3 Offsets)
         {
-            float scale = 0.05f, amplitude = 32f;
+            float scale = 0.025f, amplitude = 64f;
 
             for (int x = 0; x < Chunk.ChunkSize; x++)
             {
