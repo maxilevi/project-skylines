@@ -8,8 +8,8 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Ship0
   m_Shader: {fileID: 4800000, guid: f41b97872ce3bba439516a22765e895b, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _GLOW_ON _MODE_DEFAULT _WLIGHT_SURFACE _WSTYLE_DEFAULT
-    _WUV_UV0
+  m_ShaderKeywords: _ALPHATEST_ON _EMISSION _GLOW_ON _MODE_DEFAULT _WLIGHT_SURFACE
+    _WSTYLE_DEFAULT _WUV_UV0
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -76,9 +76,9 @@ Material:
     - _FPow: 5
     - _Fade: 0
     - _Fold: 7
-    - _GDist: 0.35
-    - _GEmission: 0
-    - _GPower: 0.66
+    - _GDist: 0.25
+    - _GEmission: 1.48
+    - _GPower: 0.86
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -108,7 +108,7 @@ Material:
     - _WUV: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0, b: 0, a: 1}
+    - _Color: {r: 0.2647059, g: 0.2647059, b: 0.2647059, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GColor: {r: 0.36551714, g: 0, b: 1, a: 1}
+    - _GColor: {r: 0, g: 0.7529412, b: 1, a: 1}
     - _WColor: {r: 0, g: 0.751724, b: 1, a: 1}

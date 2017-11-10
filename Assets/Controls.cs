@@ -13,6 +13,22 @@ public class Controls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position += Time.deltaTime * Vector3.forward * Speed;
+		if(Input.GetKey(KeyCode.W))
+			transform.Rotate(transform.right, Time.deltaTime * 64f);
+
+		if(Input.GetKey(KeyCode.S))
+			transform.Rotate(-transform.right, Time.deltaTime * 64f);
+
+		if(Input.GetKey(KeyCode.D))
+			transform.Rotate(transform.forward, Time.deltaTime * 64f);
+
+		if(Input.GetKey(KeyCode.A))
+			transform.Rotate(-transform.forward, Time.deltaTime * 64f);
+
+		transform.position += Time.deltaTime * transform.forward * Speed;
+	}
+
+	void OnCollisionEnter(){
+		Debug.Log ("Explosion");
 	}
 }

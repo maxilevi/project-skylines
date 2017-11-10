@@ -8,8 +8,8 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Ship1
   m_Shader: {fileID: 4800000, guid: 2f1a6e4a47a2cf7439ccf35a179a2d97, type: 3}
-  m_ShaderKeywords: _AA_ON _ALPHATEST_ON _GLOW_ON _MODE_DEFAULT _QUAD_ON _WLIGHT_SURFACE
-    _WSTYLE_DEFAULT _WUV_UV0
+  m_ShaderKeywords: _AA_ON _ALPHATEST_ON _EMISSION _GLOW_ON _MODE_DEFAULT _QUAD_ON
+    _WLIGHT_SURFACE _WSTYLE_DEFAULT _WUV_UV0
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -65,7 +65,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _AASmooth: 1.5
+    - _AASmooth: 4
     - _BumpScale: 1
     - _Cull: 2
     - _Cutoff: 0.518
@@ -75,10 +75,10 @@ Material:
     - _FMode: 1
     - _FPow: 5
     - _Fade: 0
-    - _Fold: 7
-    - _GDist: 0.35
-    - _GEmission: 0
-    - _GPower: 0.5
+    - _Fold: 31
+    - _GDist: 0.21
+    - _GEmission: 0.16
+    - _GPower: 0.68
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -94,19 +94,19 @@ Material:
     - _SrcBlend: 1
     - _TwoSided: 0
     - _UVSec: 0
-    - _WEmission: 0
+    - _WEmission: 3
     - _WInvert: 0
     - _WLight: 0
     - _WMode: 0
     - _WOpacity: 1
     - _WParam: 0
     - _WStyle: 0
-    - _WThickness: 0.18150002
+    - _WThickness: 0.13530001
     - _WTransparency: 0.43
     - _WUV: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.32352942, g: 0.32352942, b: 0.32352942, a: 1}
+    - _Color: {r: 0.28676468, g: 0.28676468, b: 0.28676468, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GColor: {r: 0, g: 0, b: 0, a: 1}
-    - _WColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GColor: {r: 1, g: 0.30980393, b: 0, a: 1}
+    - _WColor: {r: 1, g: 0.31034487, b: 0, a: 1}

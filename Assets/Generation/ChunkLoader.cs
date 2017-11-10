@@ -96,7 +96,7 @@ namespace Assets.Generation
                     {
 						for (int _z = -GraphicsOptions.ChunkLoaderRadius / 2; _z < GraphicsOptions.ChunkLoaderRadius / 2; _z++)
                         {
-							for (int _y = -6; _y < 6; _y++)
+							for (int _y = -2; _y < 2; _y++)
                             {
 								int x = _x, y = _y ,z  = _z;
 
