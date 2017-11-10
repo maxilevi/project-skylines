@@ -2,8 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Controls.cs">
     <Files>
-      <File FileName="Assets\Controls.cs" Line="8" Column="25" />
-      <File FileName="Assets\Generation\ChunkLoader.cs" Line="112" Column="49" />
+      <File FileName="Assets\Controls.cs" Line="26" Column="29" />
+      <File FileName="Assets\Generation\ChunkLoader.cs" Line="99" Column="32" />
+      <File FileName="Assets\Generation\GenerationQueue.cs" Line="36" Column="1" />
+      <File FileName="Assets\World.cs" Line="20" Column="1" />
+      <File FileName="Assets\Generation\GenerationThread.cs" Line="44" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
