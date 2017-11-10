@@ -25,8 +25,9 @@ public class TimeControl : MonoBehaviour {
 	}
 
 	void Update(){
-		GameOver.localScale = Lerp(GameOver.localScale, _targetGameOver, Time.deltaTime * 4f * (1/Time.timeScale));
-
+		if (Lost) {
+			GameOver.localScale = Lerp (GameOver.localScale, _targetGameOver, Time.deltaTime * 4f * (1 / Time.timeScale));
+		}
 		if (Lost)
 			return;
 
