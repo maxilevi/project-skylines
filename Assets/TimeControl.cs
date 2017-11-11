@@ -18,8 +18,9 @@ public class TimeControl : MonoBehaviour {
 	public bool Lost = true;//To simulate the start menu
 	public Text GameOver, Title;
 	public Text RestartBtn, StartBtn;
-	private float _targetGameOver, _targetRestart, _targetScore, _targetStart, _targetTitle;
+	private float _targetGameOver, _targetRestart, _targetScore, _targetStart, _targetTitle, _targetPitch = 1;
 	public GameObject PlayerPrefab;
+	public AudioSource Sound;
 
 	void Start(){
 		Lost = true;
@@ -100,6 +101,7 @@ public class TimeControl : MonoBehaviour {
 		Score.text = ((int) _score).ToString();
 		ScoreCenter.text = Score.text;
 
+		Sound.pitch = Mathf.Lerp (Sound.pitch, _targetPitch, Time.deltaTime * 8f);
 		Title.color = new Color(Title.color.r, Title.color.g, Title.color.b, Mathf.Lerp (Title.color.a, _targetTitle, Time.deltaTime * 4f * (1/Time.timeScale)));
 		StartBtn.color = new Color(StartBtn.color.r, StartBtn.color.g, StartBtn.color.b, Mathf.Lerp (StartBtn.color.a, _targetStart, Time.deltaTime * 4f * (1/Time.timeScale)));
 		GameOver.color = new Color(GameOver.color.r, GameOver.color.g, GameOver.color.b, Mathf.Lerp (GameOver.color.a, _targetGameOver, Time.deltaTime * 4f * (1/Time.timeScale)));
@@ -123,10 +125,12 @@ public class TimeControl : MonoBehaviour {
 
 		if (Using) {
 			Time.timeScale = .35f;
+			_targetPitch = .5f;
 			View.GetComponent<MotionBlur>().enabled = true;
 			View.GetComponent<VignetteAndChromaticAberration>().enabled = false;
 		} else {
 			Time.timeScale = 1f;
+			_targetPitch = 1f;
 			View.GetComponent<MotionBlur>().enabled = false;
 			View.GetComponent<VignetteAndChromaticAberration>().enabled = true;
 		}

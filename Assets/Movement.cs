@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour {
 	public Color TrailColor;
 	public Vector3 LeftPosition, RightPosition;
 	public Material TrailMaterial;
+	public AudioSource LeftSource, RightSource;
 	private bool _lock;
 
 	public void Lock(){
@@ -25,19 +26,25 @@ public class Movement : MonoBehaviour {
 			return;
 		
 		transform.parent.position += transform.forward * Time.deltaTime * 4 * Speed;
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(Vector3.zero), Time.deltaTime * 1.5f);
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(Vector3.zero), Time.deltaTime * 2.5f);
 
 		float zAngle = transform.localRotation.eulerAngles.z;
 		float xAngle = transform.localRotation.eulerAngles.x;
-		if (zAngle > 45 && zAngle < 135 || zAngle > 225 && zAngle < 315 || xAngle > 45 && xAngle < 90 || xAngle > 270 && xAngle < 315 )
+		if (zAngle > 45 && zAngle < 135 || zAngle > 225 && zAngle < 315 || xAngle > 45 && xAngle < 90 || xAngle > 270 && xAngle < 315) {
 			StartTrail (ref LeftTrail, LeftPosition);
-		else
+			LeftSource.Play ();
+		} else {
 			StopTrail (ref LeftTrail);
+			LeftSource.Stop ();
+		}
 		
-		if(zAngle > 45 && zAngle < 135 || zAngle > 225 && zAngle < 315 || xAngle > 45 && xAngle < 90 || xAngle > 270 && xAngle < 315 )
+		if (zAngle > 45 && zAngle < 135 || zAngle > 225 && zAngle < 315 || xAngle > 45 && xAngle < 90 || xAngle > 270 && xAngle < 315) {
 			StartTrail (ref RightTrail, RightPosition);
-		else
+			RightSource.Play ();
+		} else {
 			StopTrail (ref RightTrail);
+			RightSource.Stop ();
+		}
 		
 		float scale = (Time.timeScale != 1) ? (1 / Time.timeScale) * .5f : 1;
 
@@ -53,7 +60,7 @@ public class Movement : MonoBehaviour {
 
         if (Input.GetKey (KeyCode.A)) {
 			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + Vector3.forward * Time.deltaTime * 64f * TurnSpeed * scale);
-			transform.parent.Rotate(- Vector3.up * Time.deltaTime * 64f * TurnSpeed * (1/Time.timeScale));
+			transform.parent.Rotate(- Vector3.up * Time.deltaTime * 64f * TurnSpeed * scale);
         }
 
 		if (Input.GetKey (KeyCode.D)) {

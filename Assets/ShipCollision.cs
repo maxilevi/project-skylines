@@ -7,6 +7,7 @@ public class ShipCollision : MonoBehaviour {
 	public TimeControl Control;
 	public GameObject Model;
 	public Movement Controls;
+	public AudioSource CrashAudio;
 	private bool _lock = false;
 
 	public void Reset(){
@@ -19,7 +20,8 @@ public class ShipCollision : MonoBehaviour {
 
 		Controls.Lock ();
 		Control.Lose ();
-		Model.AddComponent<Explode> ();
+		Explode e = Model.AddComponent<Explode> ();
+		e.ExplosionAudio = CrashAudio;
 		_lock = true;
 	}
 }

@@ -35,7 +35,7 @@ namespace Assets.Generation
 		private bool Stop;
 
 		void Awake(){
-			StartCoroutine (this.LoadChunks());
+			//StartCoroutine (this.LoadChunks());
 			StartCoroutine (this.ManageChunksMesh());
 
 			StartCoroutine(FogLerpCoroutine());
@@ -64,8 +64,8 @@ namespace Assets.Generation
                 {
                     _maxFog = Mathf.Lerp(_maxFog, _targetMax, Time.deltaTime * 8f);
                     _minFog = Mathf.Lerp(_minFog, _targetMin, Time.deltaTime * 8f);
-                    RenderSettings.fogEndDistance = _maxFog;
-                    RenderSettings.fogStartDistance = _minFog;
+                //    RenderSettings.fogEndDistance = _maxFog;
+                //    RenderSettings.fogStartDistance = _minFog;
                 }
 
                 yield return null;
@@ -109,7 +109,7 @@ namespace Assets.Generation
 									NewChunk.transform.SetParent(World.gameObject.transform);
 									NewChunk.AddComponent<MeshFilter>();
 									NewChunk.AddComponent<MeshRenderer>();
-									NewChunk.AddComponent<MeshCollider> ();
+									//NewChunk.AddComponent<MeshCollider> ();
 									Chunk chunk = NewChunk.AddComponent<Chunk>();
 									chunk.Init(chunkPos, World);
 									World.AddChunk(chunkPos, chunk);

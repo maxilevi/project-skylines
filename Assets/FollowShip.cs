@@ -9,7 +9,7 @@ public class FollowShip : MonoBehaviour {
 	void Update () {
 		if (TargetShip == null)
 			return;
-		this.transform.position = Lerp (this.transform.position, TargetShip.transform.position + TargetShip.transform.forward * Offset.z + TargetShip.transform.up * Offset.y, Time.deltaTime * 16f);
+		this.transform.position = Lerp (this.transform.position, TargetShip.transform.position + TargetShip.transform.forward * Offset.z + TargetShip.transform.up * Offset.y, Time.deltaTime * 8f);
 		this.transform.LookAt(TargetShip.transform.position, Vector3.up);
         //this.transform.rotation = Quaternion.Slerp(this.transform.rotation, TargetShip.transform.rotation, Time.deltaTime * 32f);
     }

@@ -5,7 +5,7 @@ using System.Collections;
 
 public class Explode : MonoBehaviour
 {
-
+	public AudioSource ExplosionAudio;
 	void Start(){
 		SplitMesh();
 	}
@@ -52,7 +52,10 @@ public class Explode : MonoBehaviour
 			}
 		}
 		MR.enabled = false;
-
+		if (ExplosionAudio != null) {
+			AudioSource au = Instantiate<AudioSource> (ExplosionAudio, this.transform.position, Quaternion.identity);
+			Destroy (au, au.time + .5f);
+		}
 		Destroy(this.gameObject);
 	}
 }
