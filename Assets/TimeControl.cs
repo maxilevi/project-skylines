@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.ImageEffects;
+using Assets.Generation;
 
 public class TimeControl : MonoBehaviour {
 
@@ -15,19 +16,64 @@ public class TimeControl : MonoBehaviour {
 	public Text Score;
 	private float _score;
 	public bool Lost = false;
-	public RectTransform GameOver;
-	private Vector2 _targetGameOver;
+	public Text GameOver;
+	public Text RestartBtn;
+	private float _targetGameOver, _targetRestart;
+	public GameObject PlayerPrefab;
 
 	public void Lose(){
 		Lost = true;
 		Time.timeScale = .25f;
-		_targetGameOver = Vector2.one * .5f;
+		_targetGameOver = 1f;
+		StartCoroutine (LostCoroutine());
+	}
+
+	IEnumerator LostCoroutine (){
+		yield return new WaitForSeconds (3 / (1/Time.timeScale) );
+		_targetGameOver = 0;
+		while (Lost) {
+			yield return new WaitForSeconds (1 / (1/Time.timeScale) );
+			_targetRestart = 1;
+			yield return new WaitForSeconds (1 / (1/Time.timeScale) );
+			_targetRestart = 0;
+
+		}
+	}
+
+	public void Restart(){
+		if (!Lost)
+			return;
+		StartCoroutine (RestartCoroutine());
+	}
+
+	IEnumerator RestartCoroutine(){
+		_targetRestart = 0;
+		Lost = false;
+		Time.timeScale = 1f;
+		_score = 0;
+		EnergyLeft = 100;
+		Destroy (GameObject.FindGameObjectWithTag("Player"));
+
+		GameObject world = GameObject.FindGameObjectWithTag ("World");
+		foreach (Transform t in world.transform) {
+			t.GetComponent<Chunk> ().Dispose ();
+		}
+
+		GameObject go = Instantiate<GameObject>(PlayerPrefab, Vector3.zero, Quaternion.identity);
+		go.GetComponent<ShipCollision> ().Control = this.GetComponent<TimeControl> ();
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<FollowShip>().TargetShip = go;
+
+		yield return null;
 	}
 
 	void Update(){
-		if (Lost) {
-			GameOver.localScale = Lerp (GameOver.localScale, _targetGameOver, Time.deltaTime * 4f * (1 / Time.timeScale));
-		}
+
+		if (Lost && Input.GetKeyDown (KeyCode.Space))
+			Restart();
+
+		GameOver.color = new Color(GameOver.color.r, GameOver.color.g, GameOver.color.b, Mathf.Lerp (GameOver.color.a, _targetGameOver, Time.deltaTime * 4f * (1/Time.timeScale)));
+		RestartBtn.color = new Color(RestartBtn.color.r, RestartBtn.color.g, RestartBtn.color.b, Mathf.Lerp (RestartBtn.color.a, _targetRestart, Time.deltaTime * 4f * (1/Time.timeScale)));
+
 		if (Lost)
 			return;
 
