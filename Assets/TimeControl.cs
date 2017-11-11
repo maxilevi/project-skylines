@@ -15,11 +15,19 @@ public class TimeControl : MonoBehaviour {
 	public Camera View;
 	public Text Score, ScoreCenter;
 	private float _score;
-	public bool Lost = false;
-	public Text GameOver;
-	public Text RestartBtn;
-	private float _targetGameOver, _targetRestart, _targetScore;
+	public bool Lost = true;//To simulate the start menu
+	public Text GameOver, Title;
+	public Text RestartBtn, StartBtn;
+	private float _targetGameOver, _targetRestart, _targetScore, _targetStart, _targetTitle;
 	public GameObject PlayerPrefab;
+
+	void Start(){
+		Lost = true;
+		Time.timeScale = .25f;
+		_targetStart = 1;
+		_targetTitle = 1;
+		StartCoroutine (PlayAnim());
+	}
 
 	public void Lose(){
 		Lost = true;
@@ -41,6 +49,20 @@ public class TimeControl : MonoBehaviour {
 		}
 	}
 
+	IEnumerator PlayAnim (){
+		while (Lost) {
+			yield return new WaitForSeconds (.5f / (1/Time.timeScale) );
+			_targetStart = 1;
+			yield return new WaitForSeconds (.5f / (1/Time.timeScale) );
+			_targetStart = 0;
+
+		}
+	}
+
+	public void StartGame(){
+		Restart ();
+	}
+
 	public void Restart(){
 		if (!Lost)
 			return;
@@ -48,7 +70,9 @@ public class TimeControl : MonoBehaviour {
 	}
 
 	IEnumerator RestartCoroutine(){
+		_targetStart = 0;
 		_targetRestart = 0;
+		_targetTitle = 0;
 		Lost = false;
 		Time.timeScale = 1f;
 		_score = 0;
@@ -70,12 +94,14 @@ public class TimeControl : MonoBehaviour {
 
 	void Update(){
 
-		if (Lost && Input.GetKeyDown (KeyCode.Space))
+		if ( Lost && Input.GetKeyDown (KeyCode.Space))
 			Restart();
 
 		Score.text = ((int) _score).ToString();
 		ScoreCenter.text = Score.text;
 
+		Title.color = new Color(Title.color.r, Title.color.g, Title.color.b, Mathf.Lerp (Title.color.a, _targetTitle, Time.deltaTime * 4f * (1/Time.timeScale)));
+		StartBtn.color = new Color(StartBtn.color.r, StartBtn.color.g, StartBtn.color.b, Mathf.Lerp (StartBtn.color.a, _targetStart, Time.deltaTime * 4f * (1/Time.timeScale)));
 		GameOver.color = new Color(GameOver.color.r, GameOver.color.g, GameOver.color.b, Mathf.Lerp (GameOver.color.a, _targetGameOver, Time.deltaTime * 4f * (1/Time.timeScale)));
 		RestartBtn.color = new Color(RestartBtn.color.r, RestartBtn.color.g, RestartBtn.color.b, Mathf.Lerp (RestartBtn.color.a, _targetRestart, Time.deltaTime * 4f * (1/Time.timeScale)));
 		Score.color = new Color(Score.color.r, Score.color.g, Score.color.b, Mathf.Lerp (Score.color.a, 1-_targetScore, Time.deltaTime * 2f * (1/Time.timeScale)));
