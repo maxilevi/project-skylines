@@ -48,7 +48,7 @@ public class Explode : MonoBehaviour
 				GO.AddComponent<BoxCollider>();
 				GO.AddComponent<Rigidbody>().AddExplosionForce(20, transform.position, 30);
 
-				Destroy(GO, 5 + Random.Range(0.0f, 5.0f));
+				Destroy(GO, 2 + Random.Range(0.0f, 5.0f));
 			}
 		}
 		MR.enabled = false;

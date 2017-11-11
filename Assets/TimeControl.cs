@@ -13,18 +13,19 @@ public class TimeControl : MonoBehaviour {
 	public bool Using;
 	private bool WasPressed;
 	public Camera View;
-	public Text Score;
+	public Text Score, ScoreCenter;
 	private float _score;
 	public bool Lost = false;
 	public Text GameOver;
 	public Text RestartBtn;
-	private float _targetGameOver, _targetRestart;
+	private float _targetGameOver, _targetRestart, _targetScore;
 	public GameObject PlayerPrefab;
 
 	public void Lose(){
 		Lost = true;
 		Time.timeScale = .25f;
 		_targetGameOver = 1f;
+		_targetScore = 1f;
 		StartCoroutine (LostCoroutine());
 	}
 
@@ -51,6 +52,7 @@ public class TimeControl : MonoBehaviour {
 		Lost = false;
 		Time.timeScale = 1f;
 		_score = 0;
+		_targetScore = 0;
 		EnergyLeft = 100;
 		Destroy (GameObject.FindGameObjectWithTag("Player"));
 
@@ -71,8 +73,13 @@ public class TimeControl : MonoBehaviour {
 		if (Lost && Input.GetKeyDown (KeyCode.Space))
 			Restart();
 
+		Score.text = ((int) _score).ToString();
+		ScoreCenter.text = Score.text;
+
 		GameOver.color = new Color(GameOver.color.r, GameOver.color.g, GameOver.color.b, Mathf.Lerp (GameOver.color.a, _targetGameOver, Time.deltaTime * 4f * (1/Time.timeScale)));
 		RestartBtn.color = new Color(RestartBtn.color.r, RestartBtn.color.g, RestartBtn.color.b, Mathf.Lerp (RestartBtn.color.a, _targetRestart, Time.deltaTime * 4f * (1/Time.timeScale)));
+		Score.color = new Color(Score.color.r, Score.color.g, Score.color.b, Mathf.Lerp (Score.color.a, 1-_targetScore, Time.deltaTime * 2f * (1/Time.timeScale)));
+		ScoreCenter.color = new Color(ScoreCenter.color.r, ScoreCenter.color.g, ScoreCenter.color.b, Mathf.Lerp (ScoreCenter.color.a, _targetScore, Time.deltaTime * 2f * (1/Time.timeScale)));
 
 		if (Lost)
 			return;
@@ -102,7 +109,6 @@ public class TimeControl : MonoBehaviour {
 			WasPressed = Input.GetKey(KeyCode.Space);
 
 		_score += Time.deltaTime * 8;
-		Score.text = ((int) _score).ToString();
 	}
 
 	Vector2 Lerp(Vector2 a, Vector2 b, float d){
