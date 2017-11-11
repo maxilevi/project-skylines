@@ -1,11 +1,9 @@
-﻿/*
- * Created by SharpDevelop.
- * User: maxi
- * Date: 29/09/2016
- * Time: 07:21 p.m.
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
+﻿/* Copyright (C) Luaek - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Maxi Levi <maxilevi@live.com>, November 2017
  */
+ 
 using System;
 using System.Collections.Generic;
 using System.Collections;

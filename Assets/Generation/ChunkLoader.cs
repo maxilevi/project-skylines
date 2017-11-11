@@ -1,9 +1,10 @@
-﻿ /*
- * Author: Zaphyk
- * Date: 07/02/2016
- * Time: 07:36 p.m.
- *
+﻿/* Copyright (C) Luaek - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Maxi Levi <maxilevi@live.com>, November 2017
  */
+
+ 
 using System;
 using System.Linq;
 using System.Threading;
@@ -35,7 +36,7 @@ namespace Assets.Generation
 		private bool Stop;
 
 		void Awake(){
-			//StartCoroutine (this.LoadChunks());
+			StartCoroutine (this.LoadChunks());
 			StartCoroutine (this.ManageChunksMesh());
 
 			StartCoroutine(FogLerpCoroutine());
@@ -109,7 +110,7 @@ namespace Assets.Generation
 									NewChunk.transform.SetParent(World.gameObject.transform);
 									NewChunk.AddComponent<MeshFilter>();
 									NewChunk.AddComponent<MeshRenderer>();
-									//NewChunk.AddComponent<MeshCollider> ();
+									NewChunk.AddComponent<MeshCollider> ();
 									Chunk chunk = NewChunk.AddComponent<Chunk>();
 									chunk.Init(chunkPos, World);
 									World.AddChunk(chunkPos, chunk);

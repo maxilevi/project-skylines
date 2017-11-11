@@ -1,9 +1,9 @@
-﻿/*
- * Author: Zaphyk
- * Date: 07/04/2016
- * Time: 01:41 p.m.
- *
+﻿/* Copyright (C) Luaek - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Maxi Levi <maxilevi@live.com>, November 2017
  */
+ 
 using System;
 using System.Threading;
 using UnityEngine;

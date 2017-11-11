@@ -1,4 +1,10 @@
-﻿using System;
+﻿/* Copyright (C) Luaek - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Maxi Levi <maxilevi@live.com>, November 2017
+ */
+
+using System;
 using UnityEngine;
 
 namespace Assets.Generation
@@ -21,14 +27,21 @@ namespace Assets.Generation
         public void Generate(float[][][] Densities, Vector3 Offsets)
         {
             float scale = 0.025f, amplitude = 64f;
+			int lerp = 4;
 
             for (int x = 0; x < Chunk.ChunkSize; x++)
             {
                 for (int y = 0; y < Chunk.ChunkSize; y++)
                 {
-                    for (int z = 0; z < Chunk.ChunkSize; z++)
+					float[] values = new float[Chunk.ChunkSize / lerp];
+					for(int i = 0; i < values.Length; i++)
+						values[i] = (float) OpenSimplexNoise.Evaluate( (x+ Offsets.x) * scale, (y+ Offsets.y) * scale, (i+ Offsets.z) * scale) * amplitude;
+                    
+					for (int z = 0; z < Chunk.ChunkSize; z++)
                     {
-                        Densities[x][y][z] = (float) OpenSimplexNoise.Evaluate( (x+ Offsets.x) * scale, (y+ Offsets.y) * scale, (z+ Offsets.z) * scale) * amplitude;
+						float prev = values [ (int) (z / 4) ];
+						float next = values [ (int) Mathf.Min(z / 4+1,lerp-1) ];
+						Densities [x] [y] [z] = Mathf.Lerp (prev, next, (float) (z / (float) lerp) );  
                     }
                 }
             }

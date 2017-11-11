@@ -96,7 +96,7 @@ namespace UnityStandardAssets.ImageEffects
                 // normal noise (DX9 style)
 
                 if (noiseTexture) {
-                    noiseTexture.wrapMode = TextureWrapMode.Repeat;
+                    //noiseTexture.wrapMode = TextureWrapMode.Repeat;
                     noiseTexture.filterMode = filterMode;
                 }
 
@@ -132,7 +132,7 @@ namespace UnityStandardAssets.ImageEffects
             GL.LoadOrtho ();
 
             float aspectCorrection = (1.0f * source.width) / (1.0f * source.height);
-            float stepSizeX = 1.0f / subDs;
+            float stepSizeX = 1.0f;
             float stepSizeY = stepSizeX * aspectCorrection;
             float texTile = noiseSize / (noise.width * 1.0f);
 
@@ -144,8 +144,8 @@ namespace UnityStandardAssets.ImageEffects
 			{
                 for (float y1 = 0.0f; y1 < 1.0f; y1 += stepSizeY)
 				{
-                    float tcXStart = Random.Range (0.0f, 1.0f);
-                    float tcYStart = Random.Range (0.0f, 1.0f);
+                    float tcXStart = 0;
+                    float tcYStart = 0;
 
                     //Vector3 v3 = Random.insideUnitSphere;
                     //Color c = new Color(v3.x, v3.y, v3.z);

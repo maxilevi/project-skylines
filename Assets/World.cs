@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/* Copyright (C) Luaek - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Maxi Levi <maxilevi@live.com>, November 2017
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using Assets.Generation;
 using UnityEngine;
@@ -75,10 +81,10 @@ public class World : MonoBehaviour {
 		ChunkY *= Chunk.ChunkSize;
 		ChunkZ *= Chunk.ChunkSize;
 			
-		int X = (int) Mathf.Floor( (Vec3.x - ChunkX) / Chunk.ChunkSize );
-		int Y = (int) Mathf.Floor( (Vec3.y - ChunkX) / Chunk.ChunkSize );
-		int Z = (int) Mathf.Floor( (Vec3.z - ChunkZ) / Chunk.ChunkSize );
-			
+		int X = (int) Mathf.Floor( (Vec3.x - ChunkX) / (float) Chunk.ChunkSize );
+		int Y = (int) Mathf.Floor( (Vec3.y - ChunkY) / (float) Chunk.ChunkSize );
+		int Z = (int) Mathf.Floor( (Vec3.z - ChunkZ) / (float) Chunk.ChunkSize );
+
 		return new Vector3(X, Y ,Z);
 	}
 		

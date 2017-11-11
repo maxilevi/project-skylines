@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/* Copyright (C) Luaek - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Maxi Levi <maxilevi@live.com>, November 2017
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -80,7 +86,10 @@ public class TimeControl : MonoBehaviour {
 		_targetScore = 0;
 		EnergyLeft = 100;
 		Destroy (GameObject.FindGameObjectWithTag("Player"));
+		Destroy (GameObject.FindGameObjectWithTag("Debris"));
 
+		GameObject Debris = new GameObject ("Debris");
+		Debris.tag = "Debris";
 		GameObject world = GameObject.FindGameObjectWithTag ("World");
 		foreach (Transform t in world.transform) {
 			t.GetComponent<Chunk> ().Dispose ();

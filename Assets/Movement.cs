@@ -1,4 +1,11 @@
-﻿using UnityEngine;
+﻿/* Copyright (C) Luaek - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Maxi Levi <maxilevi@live.com>, November 2017
+ */
+
+
+using UnityEngine;
 using System.Collections;
 
 public class Movement : MonoBehaviour {
@@ -10,7 +17,15 @@ public class Movement : MonoBehaviour {
 	public Vector3 LeftPosition, RightPosition;
 	public Material TrailMaterial;
 	public AudioSource LeftSource, RightSource;
+	public AudioClip SwooshClip;
+	private GameObject Debris;
 	private bool _lock;
+
+	void Start(){
+		Debris = GameObject.FindGameObjectWithTag ("Debris");
+		LeftSource = GameObject.FindGameObjectWithTag ("LeftSource").GetComponent<AudioSource>();
+		RightSource = GameObject.FindGameObjectWithTag ("RightSource").GetComponent<AudioSource>();
+	}
 
 	public void Lock(){
 		_lock = true;
@@ -32,7 +47,10 @@ public class Movement : MonoBehaviour {
 		float xAngle = transform.localRotation.eulerAngles.x;
 		if (zAngle > 45 && zAngle < 135 || zAngle > 225 && zAngle < 315 || xAngle > 45 && xAngle < 90 || xAngle > 270 && xAngle < 315) {
 			StartTrail (ref LeftTrail, LeftPosition);
-			LeftSource.Play ();
+			LeftSource.transform.position = LeftPosition;
+			LeftSource.clip = SwooshClip;
+			if(!LeftSource.isPlaying)
+				LeftSource.Play ();
 		} else {
 			StopTrail (ref LeftTrail);
 			LeftSource.Stop ();
@@ -40,7 +58,10 @@ public class Movement : MonoBehaviour {
 		
 		if (zAngle > 45 && zAngle < 135 || zAngle > 225 && zAngle < 315 || xAngle > 45 && xAngle < 90 || xAngle > 270 && xAngle < 315) {
 			StartTrail (ref RightTrail, RightPosition);
-			RightSource.Play ();
+			RightSource.transform.position = RightPosition;
+			RightSource.clip = SwooshClip;
+			if(!RightSource.isPlaying)
+				RightSource.Play ();
 		} else {
 			StopTrail (ref RightTrail);
 			RightSource.Stop ();
@@ -86,7 +107,8 @@ public class Movement : MonoBehaviour {
 	void StopTrail(ref TrailRenderer Trail){
 		if (Trail == null)
 			return;
-		Trail.transform.parent = null;
+
+		Trail.transform.parent = (Debris != null) ?  Debris.transform : null;
 		Destroy (Trail.gameObject, Trail.time+1);
 		Trail = null;
 	}

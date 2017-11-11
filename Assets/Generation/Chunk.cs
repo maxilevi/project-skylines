@@ -1,4 +1,10 @@
-﻿using System;
+﻿/* Copyright (C) Luaek - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Maxi Levi <maxilevi@live.com>, November 2017
+ */
+
+using System;
 using UnityEngine;
 using Assets.Rendering;
 
@@ -21,7 +27,7 @@ namespace Assets.Generation
 
 		void Start(){
 			_mesh = new Mesh (); 
-			this.GetComponent<MeshFilter>().mesh = _mesh;
+			this.GetComponent<MeshFilter>().sharedMesh = _mesh;
 			this.GetComponent<MeshRenderer> ().material = _world.WorldMaterial;
 		}
 
@@ -99,7 +105,7 @@ namespace Assets.Generation
 				_mesh.SetNormals (BlockData.Normals);
 				_mesh.SetColors (BlockData.Colors);
 				_mesh.SetIndices (BlockData.Indices.ToArray (), MeshTopology.Triangles, 0);
-				//this.GetComponent<MeshCollider> ().sharedMesh = _mesh;
+				this.GetComponent<MeshCollider> ().sharedMesh = _mesh;
 			});
 		}
 
@@ -174,8 +180,14 @@ namespace Assets.Generation
 			return 0;
 		}
 
+		public float GetBlockAt(Vector3 v){
+			return this.GetBlockAt( (int) v.x, (int) v.y, (int) v.z );
+		}
 		public float GetBlockAt(int x, int y, int z){
-			return _blocks[x][y][z];
+			if (IsGenerated)
+				return _blocks [x] [y] [z];
+			else
+				return 0;
 		}
 
         public void Dispose()

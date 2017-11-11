@@ -1,12 +1,19 @@
-﻿// C#
-// SplitMeshIntoTriangles.cs
+﻿/* Copyright (C) Luaek - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Maxi Levi <maxilevi@live.com>, November 2017
+ */
+
+ 
 using UnityEngine;
 using System.Collections;
 
 public class Explode : MonoBehaviour
 {
 	public AudioSource ExplosionAudio;
+	private GameObject Debris;
 	void Start(){
+		Debris = GameObject.FindGameObjectWithTag ("Debris");
 		SplitMesh();
 	}
 
@@ -41,6 +48,8 @@ public class Explode : MonoBehaviour
 				mesh.triangles = new int[] { 0, 1, 2, 2, 1, 0 };
 
 				GameObject GO = new GameObject("Triangle " + (i / 3));
+				if (Debris != null)
+					GO.transform.parent = Debris.transform;
 				GO.transform.position = transform.position;
 				GO.transform.rotation = transform.rotation;
 				GO.AddComponent<MeshRenderer>().material = MR.materials[submesh];
