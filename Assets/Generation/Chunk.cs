@@ -105,7 +105,7 @@ namespace Assets.Generation
 				_mesh.SetNormals (BlockData.Normals);
 				_mesh.SetColors (BlockData.Colors);
 				_mesh.SetIndices (BlockData.Indices.ToArray (), MeshTopology.Triangles, 0);
-				this.GetComponent<MeshCollider> ().sharedMesh = _mesh;
+				//this.GetComponent<MeshCollider> ().sharedMesh = _mesh;
 			});
 		}
 

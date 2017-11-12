@@ -19,73 +19,42 @@ namespace Assets.Generation
 	public class MeshQueue
 	{
 		public GameObject _player;
-		public const int SleepTime = 5;
-		public const int ThreadCount = 1;
+		public const int SleepTime = 1;
+		public const int ThreadCount = 2;
 		public List<Chunk> Queue = new List<Chunk>();
 		public bool Stop {get; set;}
 		private World _world;
 		private ClosestChunk _closestChunkComparer = new ClosestChunk();
 		
 		public MeshQueue(World World){
-			Thread[] Threads = new Thread[ThreadCount];
-			for(int i = 0; i < ThreadCount; i++){
-				Threads[i] = new Thread(Start);
-				Threads[i].IsBackground = true;
-				Threads[i].Start();
-			}
+			//new Thread (Start).Start ();
 			this._player = World.Player;
 			this._world = World;
 		}
 		
 		public bool Contains(Chunk ChunkToCheck){
-			lock(Queue)
-				return Queue.Contains(ChunkToCheck);
+			return Queue.Contains(ChunkToCheck);
 		}
 		
 		public void Add(Chunk ChunkToBuild){
-			lock(Queue){
-				if(!Queue.Contains(ChunkToBuild))
-					Queue.Add(ChunkToBuild);
-			}
-		}
-		public bool Discard;
-		public void SafeDiscard(){
-			Discard = true;
+			if(!Queue.Contains(ChunkToBuild))
+				Queue.Add(ChunkToBuild);
+
+			//_closestChunkComparer.PlayerPos = _world.PlayerPosition;
+			//Queue.Sort (_closestChunkComparer);
 		}
 		
 		public void Start(){
-			try{
-				while(true){
-					if( Stop)
-						break;
-					
-					//ThreadManager.Sleep(SleepTime * ThreadCount);
-					
-					lock(Queue){
-						if(Discard){
-							Queue.Clear();
-							Discard = false;
-							continue;
-						}
-						if(Queue.Count != 0 ){
+			while(true){
+				if( Stop)
+					break;
 							
-							if(_player != null){
-								_closestChunkComparer.PlayerPos = _world.PlayerPosition;
-								lock(Queue)
-									Queue.Sort(_closestChunkComparer);
-							}
-							
-							if(Queue[0] != null){
-								Queue[0].Build();
-								if(Queue.Count != 0)
-									Queue.RemoveAt(0);
-							}else
-								Queue.RemoveAt(0);
-						}
-					}
+				//ThreadManager.Sleep (1);
+					
+				if (Queue.Count != 0) {
+					Queue [0].Build();
+					Queue.RemoveAt (0);
 				}
-			}catch(Exception e){
-				Debug.Log(e.ToString());
 			}
 		}
 	}

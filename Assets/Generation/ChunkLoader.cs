@@ -82,7 +82,8 @@ namespace Assets.Generation
 				
 				if(Stop) break;
 
-                if (!Enabled || World.Discard)
+
+                if (!Enabled)
                     goto SLEEP;
 
 				Offset = World.ToChunkSpace(_playerPosition);
@@ -92,25 +93,26 @@ namespace Assets.Generation
 
                 if (Offset != _lastOffset)
                 {
-
+					
 					for (int _x = -GraphicsOptions.ChunkLoaderRadius / 2; _x < GraphicsOptions.ChunkLoaderRadius / 2; _x++)
                     {
 						for (int _z = -GraphicsOptions.ChunkLoaderRadius / 2; _z < GraphicsOptions.ChunkLoaderRadius / 2; _z++)
                         {
-							for (int _y = -2; _y < 2; _y++)
+							for (int _y = -4; _y < 4; _y++)
                             {
 								int x = _x, y = _y ,z  = _z;
 
 								if (World.GetChunkByOffset(Offset + Vector3.Scale(new Vector3(x, y, z), new Vector3(Chunk.ChunkSize, Chunk.ChunkSize, Chunk.ChunkSize)) ) == null)
                                 {
-
 									Vector3 chunkPos = Offset + Vector3.Scale(new Vector3(x, y, z), new Vector3(Chunk.ChunkSize, Chunk.ChunkSize, Chunk.ChunkSize));
 									GameObject NewChunk = new GameObject("Chunk "+ (chunkPos.x) + " "+ (chunkPos.y) + " "+ (chunkPos.z) );
 									NewChunk.transform.position = chunkPos;
 									NewChunk.transform.SetParent(World.gameObject.transform);
 									NewChunk.AddComponent<MeshFilter>();
-									NewChunk.AddComponent<MeshRenderer>();
 									NewChunk.AddComponent<MeshCollider> ();
+									MeshRenderer Renderer = NewChunk.AddComponent<MeshRenderer>();
+									Renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+									Renderer.receiveShadows = false;
 									Chunk chunk = NewChunk.AddComponent<Chunk>();
 									chunk.Init(chunkPos, World);
 									World.AddChunk(chunkPos, chunk);
@@ -144,10 +146,10 @@ namespace Assets.Generation
 					Chunks = World.Chunks.Values.ToList().ToArray();
                 }
 				yield return null;
-                _left += 0.25f;
+                //_left += 0.25f;
 
-                if (_left >= 1.5f)
-                {
+                //if (_left >= 1.5f)
+                //{
                     _activeChunks = 0;
                     for (int i = Chunks.Length - 1; i > -1; i--)
                     {
@@ -185,14 +187,12 @@ namespace Assets.Generation
 
 						if (Chunks[i] != null && Chunks[i].IsGenerated && !World.ContainsMeshQueue(Chunks[i]) && Chunks[i].ShouldBuild)
                         {
-							yield return null;
-
                            World.AddToQueue(Chunks[i], true);
                         }
 
                     }
-                    _left = 0f;
-                }
+                  //  _left = 0f;
+                //}
                 if (_activeChunks != _prevChunkCount)
                 {
                     _prevChunkCount = _activeChunks;

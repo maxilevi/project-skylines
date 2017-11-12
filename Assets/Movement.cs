@@ -20,11 +20,14 @@ public class Movement : MonoBehaviour {
 	public AudioClip SwooshClip;
 	private GameObject Debris;
 	private bool _lock;
+	private float _leftTargetVolume = 1, _rightTargetVolume = 1;
+	private float _originalVolume;
 
 	void Start(){
 		Debris = GameObject.FindGameObjectWithTag ("Debris");
 		LeftSource = GameObject.FindGameObjectWithTag ("LeftSource").GetComponent<AudioSource>();
 		RightSource = GameObject.FindGameObjectWithTag ("RightSource").GetComponent<AudioSource>();
+		_originalVolume = (RightSource.volume + LeftSource.volume) * .5f;
 	}
 
 	public void Lock(){
@@ -37,6 +40,16 @@ public class Movement : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
+		LeftSource.volume = Mathf.Lerp (LeftSource.volume, _originalVolume * _leftTargetVolume, Time.deltaTime * 2f);
+		RightSource.volume = Mathf.Lerp (RightSource.volume, _originalVolume * _rightTargetVolume, Time.deltaTime * 2f);
+
+		if (LeftSource.volume < 0.05f)
+			LeftSource.Stop ();
+
+		if (RightSource.volume < 0.05f)
+			RightSource.Stop ();
+
 		if (_lock)
 			return;
 		
@@ -49,22 +62,24 @@ public class Movement : MonoBehaviour {
 			StartTrail (ref LeftTrail, LeftPosition);
 			LeftSource.transform.position = LeftPosition;
 			LeftSource.clip = SwooshClip;
+			_leftTargetVolume = 1;
 			if(!LeftSource.isPlaying)
 				LeftSource.Play ();
 		} else {
 			StopTrail (ref LeftTrail);
-			LeftSource.Stop ();
+			_leftTargetVolume = 0;
 		}
 		
 		if (zAngle > 45 && zAngle < 135 || zAngle > 225 && zAngle < 315 || xAngle > 45 && xAngle < 90 || xAngle > 270 && xAngle < 315) {
 			StartTrail (ref RightTrail, RightPosition);
 			RightSource.transform.position = RightPosition;
 			RightSource.clip = SwooshClip;
+			_rightTargetVolume = 1;
 			if(!RightSource.isPlaying)
 				RightSource.Play ();
 		} else {
 			StopTrail (ref RightTrail);
-			RightSource.Stop ();
+			_rightTargetVolume = 0;
 		}
 		
 		float scale = (Time.timeScale != 1) ? (1 / Time.timeScale) * .5f : 1;

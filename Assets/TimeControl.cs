@@ -22,7 +22,8 @@ public class TimeControl : MonoBehaviour {
 	public Text Score, ScoreCenter;
 	private float _score;
 	public bool Lost = true;//To simulate the start menu
-	public Text GameOver, Title;
+	public Text GameOver;
+	public RawImage Title;
 	public Text RestartBtn, StartBtn;
 	private float _targetGameOver, _targetRestart, _targetScore, _targetStart, _targetTitle, _targetPitch = 1;
 	public GameObject PlayerPrefab;
@@ -115,9 +116,10 @@ public class TimeControl : MonoBehaviour {
 		StartBtn.color = new Color(StartBtn.color.r, StartBtn.color.g, StartBtn.color.b, Mathf.Lerp (StartBtn.color.a, _targetStart, Time.deltaTime * 4f * (1/Time.timeScale)));
 		GameOver.color = new Color(GameOver.color.r, GameOver.color.g, GameOver.color.b, Mathf.Lerp (GameOver.color.a, _targetGameOver, Time.deltaTime * 4f * (1/Time.timeScale)));
 		RestartBtn.color = new Color(RestartBtn.color.r, RestartBtn.color.g, RestartBtn.color.b, Mathf.Lerp (RestartBtn.color.a, _targetRestart, Time.deltaTime * 4f * (1/Time.timeScale)));
-		Score.color = new Color(Score.color.r, Score.color.g, Score.color.b, Mathf.Lerp (Score.color.a, 1-_targetScore, Time.deltaTime * 2f * (1/Time.timeScale)));
-		ScoreCenter.color = new Color(ScoreCenter.color.r, ScoreCenter.color.g, ScoreCenter.color.b, Mathf.Lerp (ScoreCenter.color.a, _targetScore, Time.deltaTime * 2f * (1/Time.timeScale)));
-
+		if (_targetTitle != 1) {
+			Score.color = new Color (Score.color.r, Score.color.g, Score.color.b, Mathf.Lerp (Score.color.a, 1 - _targetScore, Time.deltaTime * 2f * (1 / Time.timeScale)));
+			ScoreCenter.color = new Color (ScoreCenter.color.r, ScoreCenter.color.g, ScoreCenter.color.b, Mathf.Lerp (ScoreCenter.color.a, _targetScore, Time.deltaTime * 2f * (1 / Time.timeScale)));
+		}
 		if (Lost)
 			return;
 

@@ -23,13 +23,23 @@ public class World : MonoBehaviour {
 		Application.targetFrameRate = -1;
 		_meshQueue = new MeshQueue (this);
 		_generationQueue = new GenerationQueue (this);
-		StartCoroutine(_generationQueue.Start());
+
 	}
 
 	void Update(){
 		PlayerPosition = Player.transform.position;
-		GenQueue = _generationQueue.Queue.Count;
-		MeshQueue = _meshQueue.Queue.Count;
+
+		int _genCount = 0, _meshCount = 0;
+		foreach (KeyValuePair<Vector3, Chunk> Pair in Chunks) {
+			if (!Pair.Value.IsGenerated)
+				_genCount++;
+
+			if (Pair.Value.ShouldBuild)
+				_meshCount++;
+		}
+
+		GenQueue = _genCount;
+		MeshQueue = _meshCount;
 	}
 
 	void OnApplicationQuit(){
@@ -121,9 +131,4 @@ public class World : MonoBehaviour {
 		}
 		return null;
 	}
-
-	public bool Discard{
-		get{ return (_meshQueue != null) ? _meshQueue.Discard : true; }
-	}
-
 }

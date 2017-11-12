@@ -19,7 +19,7 @@ namespace Assets
 
         static GraphicsOptions()
         {
-            ChunkLoaderRadius = 10;
+            ChunkLoaderRadius = 15;
 			Lod = true;
         }
     }
