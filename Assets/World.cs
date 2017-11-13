@@ -13,13 +13,15 @@ public class World : MonoBehaviour {
 
 	public GameObject Player;
 	public Material WorldMaterial;
-	public Vector3 PlayerPosition;
+	public Vector3 PlayerPosition, PlayerOrientation;
 	public int GenQueue, MeshQueue;
 	public readonly Dictionary<Vector3, Chunk> Chunks = new Dictionary<Vector3, Chunk>();
 	private MeshQueue _meshQueue;
-    private GenerationQueue _generationQueue;
+	private GenerationQueue _generationQueue;
+	public int ChunkLoaderRadius = 8;
 
 	void Awake(){
+		//OpenSimplexNoise.Load (Random.Range(int.MinValue, int.MaxValue));
 		Application.targetFrameRate = -1;
 		_meshQueue = new MeshQueue (this);
 		_generationQueue = new GenerationQueue (this);
@@ -27,7 +29,9 @@ public class World : MonoBehaviour {
 	}
 
 	void Update(){
+
 		PlayerPosition = Player.transform.position;
+		PlayerOrientation = Player.transform.forward;
 
 		int _genCount = 0, _meshCount = 0;
 		foreach (KeyValuePair<Vector3, Chunk> Pair in Chunks) {
@@ -39,7 +43,7 @@ public class World : MonoBehaviour {
 		}
 
 		GenQueue = _genCount;
-		MeshQueue = _meshCount;
+		//MeshQueue = _meshCount;
 	}
 
 	void OnApplicationQuit(){
@@ -47,12 +51,20 @@ public class World : MonoBehaviour {
 		_generationQueue.Stop = true;
 	}
 
+	public void SortGenerationQueue(){
+		_generationQueue.Sort ();
+	}
+
+	public void SortMeshQueue(){
+		_meshQueue.Sort ();
+	}
+
 	public void AddToQueue(Chunk Chunk, bool DoMesh)
 	{
 		if (DoMesh) {
 			_meshQueue.Add (Chunk);
 		} else {
-			_generationQueue.Queue.Add (Chunk);
+			_generationQueue.Add (Chunk);
 		}
 	}
 
@@ -61,7 +73,7 @@ public class World : MonoBehaviour {
 		lock (this.Chunks) {
 			if (!this.Chunks.ContainsKey (Offset)) {
 				this.Chunks.Add (Offset, Chunk);
-				this._generationQueue.Queue.Add (Chunk);
+				this._generationQueue.Add (Chunk);
 			}
 		}
     }
@@ -69,16 +81,15 @@ public class World : MonoBehaviour {
 		lock(Chunks){
 			if (Chunks.ContainsKey (Chunk.Position))
 				Chunks.Remove (Chunk.Position);
+
+			_meshQueue.Remove (Chunk);
+			_generationQueue.Remove (Chunk);
 		}
 		Chunk.Dispose ();
 	}
 
 	public bool ContainsMeshQueue(Chunk chunk){
-		lock(_meshQueue) return _meshQueue.Contains(chunk);
-	}
-
-	public bool ContainsGenerationQueue(Chunk chunk){
-		lock(_generationQueue) return _generationQueue.Queue.Contains(chunk);
+		return _meshQueue.Contains(chunk);
 	}
 
     public Vector3 ToBlockSpace(Vector3 Vec3){

@@ -19,42 +19,66 @@ namespace Assets.Generation
 	public class MeshQueue
 	{
 		public GameObject _player;
-		public const int SleepTime = 1;
-		public const int ThreadCount = 2;
 		public List<Chunk> Queue = new List<Chunk>();
 		public bool Stop {get; set;}
 		private World _world;
-		private ClosestChunk _closestChunkComparer = new ClosestChunk();
+		private ClosestChunk _closestChunkComparer = new ClosestChunk(); 
+		private int _exceptionCount = 0;
 		
 		public MeshQueue(World World){
 			//new Thread (Start).Start ();
+			new Thread (Start).Start ();
 			this._player = World.Player;
 			this._world = World;
 		}
-		
+
+		public void Sort(){
+			_closestChunkComparer.PlayerPos = _world.PlayerPosition + _world.PlayerOrientation * Chunk.ChunkSize * 4f;
+			Queue.Sort (_closestChunkComparer);
+		}
+
 		public bool Contains(Chunk ChunkToCheck){
-			return Queue.Contains(ChunkToCheck);
+			lock (Queue) return Queue.Contains(ChunkToCheck);
 		}
 		
 		public void Add(Chunk ChunkToBuild){
-			if(!Queue.Contains(ChunkToBuild))
-				Queue.Add(ChunkToBuild);
+			lock (Queue) {
+				Queue.Add (ChunkToBuild);
+				Sort ();
+			}
+		}
 
-			//_closestChunkComparer.PlayerPos = _world.PlayerPosition;
-			//Queue.Sort (_closestChunkComparer);
+		public void Remove(Chunk ChunkToBuild){
+			lock (Queue)
+				Queue.Remove (ChunkToBuild);
 		}
 		
 		public void Start(){
-			while(true){
-				if( Stop)
-					break;
-							
-				//ThreadManager.Sleep (1);
-					
-				if (Queue.Count != 0) {
-					Queue [0].Build();
-					Queue.RemoveAt (0);
+			try{
+				while(true){
+					if( Stop)
+						break;
+
+					Thread.Sleep(5);
+					_world.MeshQueue = Queue.Count;
+
+					Chunk workingChunk = null;
+					lock(Queue) {
+
+						workingChunk = Queue.FirstOrDefault();
+						Queue.Remove(workingChunk);
+
+					}
+
+					if(workingChunk != null)
+						workingChunk.Build();
 				}
+			}catch(Exception e){
+				if (_exceptionCount >= 3)
+					return;
+				new Thread (Start).Start ();
+				_exceptionCount++;
+				Debug.Log (e.ToString());
 			}
 		}
 	}

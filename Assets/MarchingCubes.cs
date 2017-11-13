@@ -333,9 +333,9 @@ namespace Assets.Rendering
 		}
 		#endregion
 
-		public static VertexData Process(double IsoLevel, GridCell Cell, Color Color, bool Orientation, VertexData Data)
+		public static VertexData Process(double IsoLevel, GridCell Cell, bool Orientation, VertexData Data)
 		{
-			return Build( Data, Color, Polygonise(Cell, IsoLevel), Orientation);
+			return Build( Data, Polygonise(Cell, IsoLevel), Orientation);
 		}
 
 		private static Triangle[] Polygonise(GridCell Cell, double IsoLevel)
@@ -430,7 +430,7 @@ namespace Assets.Rendering
 			return p;
 		}
 
-		private static VertexData Build(VertexData Data, Color TemplateColor, Triangle[] Triangles, bool Orientation)
+		private static VertexData Build(VertexData Data, Triangle[] Triangles, bool Orientation)
 		{
 			if(Triangles == null) return Data;
 			if(Triangles.Length == 2){ //Make it more aestically pleasing
@@ -467,10 +467,6 @@ namespace Assets.Rendering
 					Data.Normals.Add(Normal);
 					Data.Normals.Add(Normal);
 					Data.Normals.Add(Normal);
-
-					Data.Colors.Add(TemplateColor);
-					Data.Colors.Add(TemplateColor);
-					Data.Colors.Add(TemplateColor);
 				}     
 			}
 			return Data;

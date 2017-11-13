@@ -33,7 +33,7 @@ namespace Assets.Generation
 				
 				float V1f = (V1.Position - PlayerPos).sqrMagnitude;
 				float V2f = (V2.Position - PlayerPos).sqrMagnitude;
-		
+
 				if(V1f < V2f){
 					return -1;
 				}else if(V1f == V2f){

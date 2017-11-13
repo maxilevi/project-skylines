@@ -38,8 +38,6 @@ namespace Assets.Generation
 		void Awake(){
 			StartCoroutine (this.LoadChunks());
 			StartCoroutine (this.ManageChunksMesh());
-
-			StartCoroutine(FogLerpCoroutine());
 		}
 
 		void OnApplicationQuit(){
@@ -51,35 +49,12 @@ namespace Assets.Generation
 			_position = transform.position;
 		}
 
-        private void UpdateFog(float f1, float f2)
-        {
-            _targetMax = (float)(Chunk.ChunkSize * Math.Sqrt(_activeChunks) * 2.0f);
-            _targetMin = (float)(Chunk.ChunkSize * (Math.Sqrt(_activeChunks) - 2) * 2.0f);
-        }
-
-        private IEnumerator FogLerpCoroutine()
-        {
-            while (true)
-            {
-                if ((_maxFog != _targetMax || _minFog != _targetMin))
-                {
-                    _maxFog = Mathf.Lerp(_maxFog, _targetMax, Time.deltaTime * 8f);
-                    _minFog = Mathf.Lerp(_minFog, _targetMin, Time.deltaTime * 8f);
-                //    RenderSettings.fogEndDistance = _maxFog;
-                //    RenderSettings.fogStartDistance = _minFog;
-                }
-
-                yield return null;
-                yield return null;
-            }
-        }
-
 
 		private IEnumerator LoadChunks()
         {
 			while (true)
             {
-				
+				//break;
 				if(Stop) break;
 
 
@@ -91,14 +66,14 @@ namespace Assets.Generation
 				if (Offset == Vector3.zero)
                     goto SLEEP;
 
-                if (Offset != _lastOffset)
+				if (Offset != _lastOffset)
                 {
-					
-					for (int _x = -GraphicsOptions.ChunkLoaderRadius / 2; _x < GraphicsOptions.ChunkLoaderRadius / 2; _x++)
+
+					for (int _x = -World.ChunkLoaderRadius / 2; _x < World.ChunkLoaderRadius / 2; _x++)
                     {
-						for (int _z = -GraphicsOptions.ChunkLoaderRadius / 2; _z < GraphicsOptions.ChunkLoaderRadius / 2; _z++)
+						for (int _z = -World.ChunkLoaderRadius / 2; _z < World.ChunkLoaderRadius / 2; _z++)
                         {
-							for (int _y = -4; _y < 4; _y++)
+							for (int _y = -World.ChunkLoaderRadius / 2; _y < World.ChunkLoaderRadius / 2; _y++)
                             {
 								int x = _x, y = _y ,z  = _z;
 
@@ -108,13 +83,9 @@ namespace Assets.Generation
 									GameObject NewChunk = new GameObject("Chunk "+ (chunkPos.x) + " "+ (chunkPos.y) + " "+ (chunkPos.z) );
 									NewChunk.transform.position = chunkPos;
 									NewChunk.transform.SetParent(World.gameObject.transform);
-									NewChunk.AddComponent<MeshFilter>();
-									NewChunk.AddComponent<MeshCollider> ();
-									MeshRenderer Renderer = NewChunk.AddComponent<MeshRenderer>();
-									Renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-									Renderer.receiveShadows = false;
 									Chunk chunk = NewChunk.AddComponent<Chunk>();
 									chunk.Init(chunkPos, World);
+									chunk.Lod = 2;
 									World.AddChunk(chunkPos, chunk);
                                 }
                             }
@@ -122,7 +93,7 @@ namespace Assets.Generation
                     }
                     _lastRadius = GraphicsOptions.ChunkLoaderRadius;
                     _lastOffset = Offset;
-
+					World.SortGenerationQueue();
                 }
                 SLEEP:
 				yield return null;
@@ -137,66 +108,24 @@ namespace Assets.Generation
 
 				yield return null;
 
-                if (!Enabled)
-                    continue;
 
                 Chunk[] Chunks;
                 lock (World.Chunks)
-                {
 					Chunks = World.Chunks.Values.ToList().ToArray();
-                }
-				yield return null;
-                //_left += 0.25f;
 
-                //if (_left >= 1.5f)
-                //{
-                    _activeChunks = 0;
-                    for (int i = Chunks.Length - 1; i > -1; i--)
-                    {
-
-                        if (Chunks[i].Disposed)
-                        {
-                            continue;
-                        }
-
-						if (Chunks[i].IsGenerated && !Chunks[i].ShouldBuild)
-                        {
-                            _activeChunks++;
-                        }
-
-						if ((Chunks[i].Position - _playerPosition).sqrMagnitude > (GraphicsOptions.ChunkLoaderRadius) * Chunk.ChunkSize * (GraphicsOptions.ChunkLoaderRadius) * Chunk.ChunkSize  )
-                        {
-                            World.RemoveChunk(Chunks[i]);
-                            continue;
-                        }
-
-
-                        if (Chunks[i] != null && Chunks[i].IsGenerated)
-                        {
-
-							float CameraDist = (Chunks[i].Position - _position).sqrMagnitude;
-
-                           // if (CameraDist > 288 * 288 && CameraDist < 576 * 576 && GraphicsOptions.Lod)
-                            //    Chunks[i].Lod = 2;
-                           // else if (CameraDist > 576 * 576 && GraphicsOptions.Lod)
-                           //     Chunks[i].Lod = 4;
-                           // else
-                                Chunks[i].Lod = 1;
-                        }
-
-
-						if (Chunks[i] != null && Chunks[i].IsGenerated && !World.ContainsMeshQueue(Chunks[i]) && Chunks[i].ShouldBuild)
-                        {
-                           World.AddToQueue(Chunks[i], true);
-                        }
-
-                    }
-                  //  _left = 0f;
-                //}
-                if (_activeChunks != _prevChunkCount)
+                for (int i = Chunks.Length - 1; i > -1; i--)
                 {
-                    _prevChunkCount = _activeChunks;
-                    ThreadManager.ExecuteOnMainThread(() => UpdateFog(2f, 3f));
+
+                    if (Chunks[i].Disposed)
+                    {
+                        continue;
+                    }
+
+					if ((Chunks[i].Position - _playerPosition).sqrMagnitude > (GraphicsOptions.ChunkLoaderRadius) * .5f * Chunk.ChunkSize * (GraphicsOptions.ChunkLoaderRadius) * Chunk.ChunkSize * .5f  )
+                    {
+                        World.RemoveChunk(Chunks[i]);
+                        continue;
+                    }
                 }
             }
         }

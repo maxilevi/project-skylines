@@ -12,13 +12,13 @@ namespace Assets.Generation
 {
 	public class Chunk : MonoBehaviour, IDisposable
     {
-        public const int ChunkSize = 16;
-		public const int Bitshift = 4;
+        public const int ChunkSize = 32;
+		public const int Bitshift = 5;
         public Vector3 Position { get; private set; }
 		public bool ShouldBuild;
 		public bool IsGenerated;
 		public int Lod;
-		public bool Disposed {get; private set; }
+		public bool Disposed;
 
 		private Mesh _mesh;
         private World _world;
@@ -27,8 +27,13 @@ namespace Assets.Generation
 
 		void Start(){
 			_mesh = new Mesh (); 
-			this.GetComponent<MeshFilter>().sharedMesh = _mesh;
-			this.GetComponent<MeshRenderer> ().material = _world.WorldMaterial;
+			this.gameObject.AddComponent<MeshCollider> ();
+			MeshFilter Filter = this.gameObject.AddComponent<MeshFilter>();
+			Filter.mesh = _mesh;
+			MeshRenderer Renderer = this.gameObject.AddComponent<MeshRenderer>();
+			Renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+			Renderer.receiveShadows = false;
+			Renderer.material = _world.WorldMaterial;
 		}
 
 		public void Init(Vector3 Position, World World)
@@ -45,6 +50,7 @@ namespace Assets.Generation
 			this.IsGenerated = true;
 
             this.ShouldBuild = true;
+			_world.AddToQueue (this, true);
         }
 
 		public void Build() 
@@ -83,14 +89,14 @@ namespace Assets.Generation
 						this.CreateCell (x,y,z, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk,
 							TopFrontChunk, TopRightFrontChunk, TopChunk, Cell, out Success);
 
-						if (!Success)
-							completelyBuilded = false;
+						//if (!Success)
+						//	completelyBuilded = false;
 
-						//if (!MarchingCubes.Usable (0f, Cell))
-						//	continue;
+						if (!MarchingCubes.Usable (0f, Cell))
+							continue;
 
 
-						MarchingCubes.Process(0f, Cell, new Color(1f,0,0,1f), Next, BlockData);
+						MarchingCubes.Process(0f, Cell, Next, BlockData);
 
 					}
 				}
@@ -98,14 +104,15 @@ namespace Assets.Generation
 
 			if (!completelyBuilded)
 				ShouldBuild = true;
-
+			
 			ThreadManager.ExecuteOnMainThread (delegate {
-				_mesh.Clear();
-				_mesh.SetVertices (BlockData.Vertices);
-				_mesh.SetNormals (BlockData.Normals);
-				_mesh.SetColors (BlockData.Colors);
-				_mesh.SetIndices (BlockData.Indices.ToArray (), MeshTopology.Triangles, 0);
-				//this.GetComponent<MeshCollider> ().sharedMesh = _mesh;
+				if(!this.Disposed){
+					_mesh.Clear();
+					_mesh.SetVertices (BlockData.Vertices);
+					_mesh.SetNormals (BlockData.Normals);
+					_mesh.SetIndices (BlockData.Indices.ToArray (), MeshTopology.Triangles, 0);
+					//this.GetComponent<MeshCollider> ().sharedMesh = _mesh;
+				}
 			});
 		}
 
@@ -115,13 +122,13 @@ namespace Assets.Generation
 			int _x = (int)x, _y = (int)y, _z = (int)z;
 
 			Cell.Density [0] = this.GetNeighbourDensity ( _x,  _y,  _z, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
-			Cell.Density [1] = this.GetNeighbourDensity ( _x+1,  _y,  _z, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
-			Cell.Density [2] = this.GetNeighbourDensity ( _x+1,  _y,  _z+1, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
-			Cell.Density [3] = this.GetNeighbourDensity ( _x,  _y,  _z+1, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
-			Cell.Density [4] = this.GetNeighbourDensity ( _x,  _y+1,  _z, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
-			Cell.Density [5] = this.GetNeighbourDensity ( _x+1,  _y+1,  _z, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
-			Cell.Density [6] = this.GetNeighbourDensity ( _x+1,  _y+1,  _z+1, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
-			Cell.Density [7] = this.GetNeighbourDensity ( _x,  _y+1,  _z+1, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
+			Cell.Density [1] = this.GetNeighbourDensity ( _x+Lod,  _y,  _z, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
+			Cell.Density [2] = this.GetNeighbourDensity ( _x+Lod,  _y,  _z+Lod, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
+			Cell.Density [3] = this.GetNeighbourDensity ( _x,  _y,  _z+Lod, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
+			Cell.Density [4] = this.GetNeighbourDensity ( _x,  _y+Lod,  _z, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
+			Cell.Density [5] = this.GetNeighbourDensity ( _x+Lod,  _y+Lod,  _z, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
+			Cell.Density [6] = this.GetNeighbourDensity ( _x+Lod,  _y+Lod,  _z+Lod, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
+			Cell.Density [7] = this.GetNeighbourDensity ( _x,  _y+Lod,  _z+Lod, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
 
 			for (int i = 0; i < Cell.Density.Length; i++) {
 				if (Cell.Density [i] == 0) {
@@ -133,13 +140,13 @@ namespace Assets.Generation
 
 		private void BuildCell(float x, float y, float z, GridCell Cell){
 			Cell.P[0] = new Vector3(x,y,z);
-			Cell.P[1] = new Vector3(x+1,y,z);
-			Cell.P[2] = new Vector3(x+1,y,z+1);
-			Cell.P[3] = new Vector3(x,y,z+1);
-			Cell.P[4] = new Vector3(x,y+1,z);
-			Cell.P[5] = new Vector3(x+1,y+1,z);
-			Cell.P[6] = new Vector3(x+1,y+1,z+1);
-			Cell.P[7] = new Vector3(x,y+1,z+1);
+			Cell.P[1] = new Vector3(x+Lod,y,z);
+			Cell.P[2] = new Vector3(x+Lod,y,z+Lod);
+			Cell.P[3] = new Vector3(x,y,z+Lod);
+			Cell.P[4] = new Vector3(x,y+Lod,z);
+			Cell.P[5] = new Vector3(x+Lod,y+Lod,z);
+			Cell.P[6] = new Vector3(x+Lod,y+Lod,z+Lod);
+			Cell.P[7] = new Vector3(x,y+Lod,z+Lod);
 		}
 
 		private float GetNeighbourDensity( int x, int y, int z, Chunk RightChunk, Chunk FrontChunk, Chunk RightFrontChunk, Chunk TopRightChunk, Chunk TopFrontChunk, Chunk TopRightFrontChunk, Chunk TopChunk){
@@ -192,6 +199,7 @@ namespace Assets.Generation
 
         public void Dispose()
         {
+			ThreadManager.ExecuteOnMainThread( () => _mesh.Clear() );
 			this.Disposed = true;
             this._generator.Dispose();
 			ThreadManager.ExecuteOnMainThread( () => Destroy (this.gameObject) );

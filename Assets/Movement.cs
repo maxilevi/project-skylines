@@ -117,6 +117,7 @@ public class Movement : MonoBehaviour {
 		Trail.startColor = TrailColor;
 		Trail.transform.localPosition = Position;
 		Trail.material = TrailMaterial;
+		Trail.time = 3;
 	}
 
 	void StopTrail(ref TrailRenderer Trail){

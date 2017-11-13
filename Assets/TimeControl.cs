@@ -4,6 +4,7 @@
  * Written by Maxi Levi <maxilevi@live.com>, November 2017
  */
 
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -91,12 +92,18 @@ public class TimeControl : MonoBehaviour {
 
 		GameObject Debris = new GameObject ("Debris");
 		Debris.tag = "Debris";
-		GameObject world = GameObject.FindGameObjectWithTag ("World");
-		foreach (Transform t in world.transform) {
-			t.GetComponent<Chunk> ().Dispose ();
-		}
+		OpenSimplexNoise.Load (Random.Range(int.MinValue, int.MaxValue));
 
+		World world = GameObject.FindGameObjectWithTag ("World").GetComponent<World>();
+		Chunk[] chunks = null;
+		lock(world.Chunks) 
+			chunks =  world.Chunks.Values.ToList().ToArray();
+		
+		for (int i = 0; i < chunks.Length; i++)
+			world.RemoveChunk (chunks[i]);
+	
 		GameObject go = Instantiate<GameObject>(PlayerPrefab, Vector3.zero, Quaternion.identity);
+		world.Player = go;
 		go.GetComponent<ShipCollision> ().Control = this.GetComponent<TimeControl> ();
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<FollowShip>().TargetShip = go;
 
@@ -105,7 +112,7 @@ public class TimeControl : MonoBehaviour {
 
 	void Update(){
 
-		if ( Lost && Input.GetKeyDown (KeyCode.Space))
+		if ( Lost && Input.GetKeyDown(KeyCode.Space))//Input.anyKeyDown)
 			Restart();
 
 		Score.text = ((int) _score).ToString();

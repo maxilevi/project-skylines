@@ -217,7 +217,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 04a842e316b6f44bf8da702de26a8ed6, type: 3}
     m_FontSize: 107
     m_FontStyle: 0
     m_BestFit: 0
@@ -708,7 +708,7 @@ RectTransform:
   m_GameObject: {fileID: 889690355}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 189, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 747117607}
   m_RootOrder: 0
@@ -730,7 +730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -838,7 +838,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 649e4aa8ec6dc36409789a1a233bc387, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 0.605
   m_Pitch: 1
   Loop: 1
@@ -937,7 +937,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &1111598442
 ParticleSystemRenderer:
   serializedVersion: 4
@@ -1052,7 +1052,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1789946895
+  randomSeed: 392967366
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4965,8 +4965,10 @@ MonoBehaviour:
   Player: {fileID: 729518478}
   WorldMaterial: {fileID: 2100000, guid: 5ce0ae9e898316748a10f8301b89b052, type: 2}
   PlayerPosition: {x: 0, y: 0, z: 0}
+  PlayerOrientation: {x: 0, y: 0, z: 0}
   GenQueue: 0
   MeshQueue: 0
+  ChunkLoaderRadius: 8
 --- !u!4 &1880731489
 Transform:
   m_ObjectHideFlags: 0
@@ -5002,7 +5004,7 @@ MonoBehaviour:
   MaxThickness: 0.3
   MinThickness: 0.15
   Time: 0
-  ChangeTime: 16
+  ChangeTime: 16000
 --- !u!1 &1987698360
 GameObject:
   m_ObjectHideFlags: 0
