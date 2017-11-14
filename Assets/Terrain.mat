@@ -8,8 +8,8 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: Terrain
   m_Shader: {fileID: 4800000, guid: f41b97872ce3bba439516a22765e895b, type: 3}
-  m_ShaderKeywords: _AA_ON _ALPHATEST_ON _EMISSION _FADE_ON _GLOW_ON _MODE_BARY _QUAD_ON
-    _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _WLIGHT_SURFACE _WSTYLE_DEFAULT _WUV_UV0
+  m_ShaderKeywords: _AA_ON _ALPHATEST_ON _EMISSION _GLOW_ON _MODE_BARY _QUAD_ON _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+    _WLIGHT_SURFACE _WSTYLE_DEFAULT _WUV_UV0
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -74,7 +74,7 @@ Material:
     - _FDist: 0.010000001
     - _FMode: 0
     - _FPow: 10
-    - _Fade: 1
+    - _Fade: 0
     - _Fold: 31
     - _GDist: 0.16
     - _GEmission: 1.05
@@ -83,7 +83,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Glow: 1
-    - _Limits: 1
+    - _Limits: 0
     - _Metallic: 0
     - _Mode: 1
     - _OcclusionStrength: 1
@@ -103,7 +103,7 @@ Material:
     - _WOpacity: 1
     - _WParam: 0
     - _WStyle: 0
-    - _WThickness: 0.033000004
+    - _WThickness: 0.06600001
     - _WTransparency: 0
     - _WUV: 0
     - _ZWrite: 1

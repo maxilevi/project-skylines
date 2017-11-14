@@ -22,6 +22,7 @@ public class Movement : MonoBehaviour {
 	private bool _lock;
 	private float _leftTargetVolume = 1, _rightTargetVolume = 1;
 	private float _originalVolume;
+	private float _speed = 0;
 
 	void Start(){
 		Debris = GameObject.FindGameObjectWithTag ("Debris");
@@ -52,8 +53,9 @@ public class Movement : MonoBehaviour {
 
 		if (_lock)
 			return;
-		
-		transform.parent.position += transform.forward * Time.deltaTime * 4 * Speed;
+
+		_speed = Mathf.Lerp (_speed, Speed, Time.deltaTime * .25f);
+		transform.parent.position += transform.forward * Time.deltaTime * 4 * _speed;
         transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(Vector3.zero), Time.deltaTime * 2.5f);
 
 		float zAngle = transform.localRotation.eulerAngles.z;

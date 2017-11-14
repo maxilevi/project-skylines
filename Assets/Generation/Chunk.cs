@@ -50,7 +50,6 @@ namespace Assets.Generation
 			this.IsGenerated = true;
 
             this.ShouldBuild = true;
-			_world.AddToQueue (this, true);
         }
 
 		public void Build() 
@@ -78,19 +77,19 @@ namespace Assets.Generation
 			Chunk TopRightChunk  = _world.GetChunkByOffset (this.Position + new Vector3(ChunkSize, ChunkSize, 0));
 
 
-			for (int y = 0; y < ChunkSize; y++) {
+			for (int y = 0; y < ChunkSize; y+=Lod) {
 				
-				for (int x = 0; x < ChunkSize; x+=1) {
+				for (int x = 0; x < ChunkSize; x+=Lod) {
 					Next = !Next;
-					for (int z = 0; z < ChunkSize; z+=1) {
+					for (int z = 0; z < ChunkSize; z+=Lod) {
 						Next = !Next;
 
 						bool Success;
 						this.CreateCell (x,y,z, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk,
 							TopFrontChunk, TopRightFrontChunk, TopChunk, Cell, out Success);
 
-						//if (!Success)
-						//	completelyBuilded = false;
+						if (!Success)
+							completelyBuilded = false;
 
 						if (!MarchingCubes.Usable (0f, Cell))
 							continue;
@@ -102,8 +101,8 @@ namespace Assets.Generation
 				}
 			}
 
-			if (!completelyBuilded)
-				ShouldBuild = true;
+			//if (!completelyBuilded)
+			//	ShouldBuild = true;
 			
 			ThreadManager.ExecuteOnMainThread (delegate {
 				if(!this.Disposed){
@@ -111,7 +110,7 @@ namespace Assets.Generation
 					_mesh.SetVertices (BlockData.Vertices);
 					_mesh.SetNormals (BlockData.Normals);
 					_mesh.SetIndices (BlockData.Indices.ToArray (), MeshTopology.Triangles, 0);
-					//this.GetComponent<MeshCollider> ().sharedMesh = _mesh;
+					this.GetComponent<MeshCollider> ().sharedMesh = _mesh;
 				}
 			});
 		}
@@ -131,7 +130,7 @@ namespace Assets.Generation
 			Cell.Density [7] = this.GetNeighbourDensity ( _x,  _y+Lod,  _z+Lod, RightChunk, FrontChunk, RightFrontChunk, TopRightChunk, TopFrontChunk, TopRightFrontChunk, TopChunk);
 
 			for (int i = 0; i < Cell.Density.Length; i++) {
-				if (Cell.Density [i] == 0) {
+				if (Cell.Density [i] == 0f) {
 					Success = false;
 					break;
 				}
@@ -185,6 +184,36 @@ namespace Assets.Generation
 
 
 			return 0;
+		}
+
+		public bool NeighboursExists{
+			get{
+				//Make it like this so it exits if one is not completed
+				int conditions = 0;
+
+				Chunk RightChunk = _world.GetChunkByOffset (this.Position + new Vector3(ChunkSize, 0, 0));
+				conditions += (RightChunk != null && RightChunk.IsGenerated) ? 1 : 0;
+
+				Chunk TopChunk = _world.GetChunkByOffset (this.Position + new Vector3(0, ChunkSize, 0));
+				conditions += (TopChunk != null && TopChunk.IsGenerated) ? 1 : 0;
+
+				Chunk FrontChunk = _world.GetChunkByOffset (this.Position + new Vector3(0, 0, ChunkSize));
+				conditions += (FrontChunk != null && FrontChunk.IsGenerated) ? 1 : 0;
+
+				Chunk RightFrontChunk  = _world.GetChunkByOffset (this.Position + new Vector3(ChunkSize, 0, ChunkSize));
+				conditions += (RightFrontChunk != null && RightFrontChunk.IsGenerated) ? 1 : 0;
+
+				Chunk TopFrontChunk  = _world.GetChunkByOffset (this.Position + new Vector3(0, ChunkSize, ChunkSize));
+				conditions += (TopFrontChunk != null && TopFrontChunk.IsGenerated) ? 1 : 0;
+
+				Chunk TopRightFrontChunk  = _world.GetChunkByOffset (this.Position + new Vector3(ChunkSize, ChunkSize, ChunkSize));
+				conditions += (TopRightFrontChunk != null && TopRightFrontChunk.IsGenerated) ? 1 : 0;
+
+				Chunk TopRightChunk  = _world.GetChunkByOffset (this.Position + new Vector3(ChunkSize, ChunkSize, 0));
+				conditions += (TopRightChunk != null && TopRightChunk.IsGenerated) ? 1 : 0;
+
+				return conditions == 7;
+			}
 		}
 
 		public float GetBlockAt(Vector3 v){

@@ -17,6 +17,12 @@ public class Explode : MonoBehaviour
 		SplitMesh();
 	}
 
+	IEnumerator DestroyCoroutine(GameObject GO){
+		yield return new WaitForSeconds (2 + Random.Range(0.0f, 5.0f));
+		GO.GetComponent<MeshFilter> ().sharedMesh.Clear ();
+		Destroy(GO);
+	}
+
 	void SplitMesh ()
 	{
 		MeshFilter MF = GetComponent<MeshFilter>();
@@ -57,7 +63,7 @@ public class Explode : MonoBehaviour
 				GO.AddComponent<BoxCollider>();
 				GO.AddComponent<Rigidbody>().AddExplosionForce(20, transform.position, 30);
 
-				Destroy(GO, 2 + Random.Range(0.0f, 5.0f));
+				StartCoroutine (DestroyCoroutine (GO));
 			}
 		}
 		MR.enabled = false;

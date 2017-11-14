@@ -19,13 +19,14 @@ public class World : MonoBehaviour {
 	private MeshQueue _meshQueue;
 	private GenerationQueue _generationQueue;
 	public int ChunkLoaderRadius = 8;
+	public bool Loaded {get; set;}
 
 	void Awake(){
 		//OpenSimplexNoise.Load (Random.Range(int.MinValue, int.MaxValue));
 		Application.targetFrameRate = -1;
 		_meshQueue = new MeshQueue (this);
 		_generationQueue = new GenerationQueue (this);
-
+		Loaded = true;
 	}
 
 	void Update(){

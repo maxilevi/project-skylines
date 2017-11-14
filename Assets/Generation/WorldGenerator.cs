@@ -41,7 +41,10 @@ namespace Assets.Generation
                     {
 						float prev = values [ (int) (z / lerp) ];
 						float next = values [ (int) Mathf.Min(z / lerp+1,values.Length-1) ];
-						Densities [x] [y] [z] = Mathf.Lerp (prev, next, (float) (z / (float) lerp) );  
+						Densities [x] [y] [z] = Mathf.Lerp (prev, next, (float) (z / (float) lerp) );
+
+						//Make a sphere on spawn point
+						Densities [x] [y] [z] = ( ( Vector3.forward * 32f - new Vector3(x + Offsets.x, y + Offsets.y, z + Offsets.z) ).sqrMagnitude < 64f*64f) ? 0 : Densities[x][y][z]; 
                     }
                 }
             }

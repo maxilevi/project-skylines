@@ -20,13 +20,14 @@ namespace Assets.Generation
 	{
 		public GameObject _player;
 		public List<Chunk> Queue = new List<Chunk>();
+		public Dictionary<Chunk, int> _queueDict = new Dictionary<Chunk, int>();
 		public bool Stop {get; set;}
 		private World _world;
 		private ClosestChunk _closestChunkComparer = new ClosestChunk(); 
 		private int _exceptionCount = 0;
 		
 		public MeshQueue(World World){
-			//new Thread (Start).Start ();
+			new Thread (Start).Start ();
 			new Thread (Start).Start ();
 			this._player = World.Player;
 			this._world = World;
@@ -38,19 +39,22 @@ namespace Assets.Generation
 		}
 
 		public bool Contains(Chunk ChunkToCheck){
-			lock (Queue) return Queue.Contains(ChunkToCheck);
+			lock (Queue) return _queueDict.ContainsKey(ChunkToCheck);
 		}
 		
 		public void Add(Chunk ChunkToBuild){
 			lock (Queue) {
+				_queueDict.Add (ChunkToBuild, 0);
 				Queue.Add (ChunkToBuild);
-				Sort ();
 			}
 		}
 
 		public void Remove(Chunk ChunkToBuild){
-			lock (Queue)
+			lock (Queue) {
 				Queue.Remove (ChunkToBuild);
+				if(_queueDict.ContainsKey(ChunkToBuild))
+					_queueDict.Remove (ChunkToBuild);
+			}
 		}
 		
 		public void Start(){
@@ -64,10 +68,11 @@ namespace Assets.Generation
 
 					Chunk workingChunk = null;
 					lock(Queue) {
-
+						Sort();
 						workingChunk = Queue.FirstOrDefault();
 						Queue.Remove(workingChunk);
-
+						if(workingChunk != null && _queueDict.ContainsKey(workingChunk))
+							_queueDict.Remove(workingChunk);
 					}
 
 					if(workingChunk != null)

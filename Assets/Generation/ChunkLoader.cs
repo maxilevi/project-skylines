@@ -28,9 +28,9 @@ namespace Assets.Generation
         private float _minFog;
         private float _maxFog;
         private float _left = 0;
-        private Vector3 _lastOffset, _lastOffset2;
+		private Vector3 _lastOffset = new Vector3(float.MinValue, float.MinValue, float.MinValue);
         private int _prevChunkCount;
-        private float _lastRadius, _lastRadius2;
+        private float _lastRadius;
 		private Vector3 _playerPosition, _position;
 		private Thread _t1, _t2;
 		private bool Stop;
@@ -58,13 +58,10 @@ namespace Assets.Generation
 				if(Stop) break;
 
 
-                if (!Enabled)
+				if (!Enabled || !World.Loaded)
                     goto SLEEP;
 
 				Offset = World.ToChunkSpace(_playerPosition);
-
-				if (Offset == Vector3.zero)
-                    goto SLEEP;
 
 				if (Offset != _lastOffset)
                 {
@@ -113,6 +110,7 @@ namespace Assets.Generation
                 lock (World.Chunks)
 					Chunks = World.Chunks.Values.ToList().ToArray();
 
+				bool AddedNew = false;
                 for (int i = Chunks.Length - 1; i > -1; i--)
                 {
 
@@ -126,7 +124,14 @@ namespace Assets.Generation
                         World.RemoveChunk(Chunks[i]);
                         continue;
                     }
+
+					if (Chunks [i].ShouldBuild && Chunks [i].IsGenerated && !World.ContainsMeshQueue(Chunks[i]) && Chunks[i].NeighboursExists) {
+						World.AddToQueue (Chunks[i], true);
+						AddedNew = true;
+					}
                 }
+				//if (AddedNew)
+				//	World.SortMeshQueue ();
             }
         }
     }

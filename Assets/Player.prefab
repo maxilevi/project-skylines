@@ -448,7 +448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b67576e7da945d4abe2e66b1d91a4a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 12
+  Speed: 16
   TurnSpeed: 2.75
   LeftTrail: {fileID: 96019907841751074}
   RightTrail: {fileID: 96556101435154620}
