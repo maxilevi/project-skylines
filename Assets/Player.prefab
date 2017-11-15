@@ -448,11 +448,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b67576e7da945d4abe2e66b1d91a4a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 16
+  Speed: 12
   TurnSpeed: 2.75
   LeftTrail: {fileID: 96019907841751074}
   RightTrail: {fileID: 96556101435154620}
-  TrailColor: {r: 1, g: 0.5568628, b: 0, a: 1}
+  TrailColor: {r: 1, g: 0.30980393, b: 0, a: 1}
   LeftPosition: {x: 3, y: -0.6, z: -0.9}
   RightPosition: {x: -3, y: -0.6, z: -0.9}
   TrailMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}

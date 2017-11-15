@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using System.Collections;
+using Assets;
 
 public class Movement : MonoBehaviour {
 
@@ -85,13 +86,15 @@ public class Movement : MonoBehaviour {
 		}
 		
 		float scale = (Time.timeScale != 1) ? (1 / Time.timeScale) * .5f : 1;
+		KeyCode UpKey = (Options.Invert) ? KeyCode.W : KeyCode.S;
+		KeyCode DownKey = (Options.Invert) ? KeyCode.S : KeyCode.W;
 
-        if (Input.GetKey(KeyCode.W))
+		if (Input.GetKey(UpKey))
         {
 			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + Vector3.right * Time.deltaTime * 64f * TurnSpeed * scale);
         }
 
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(DownKey))
         {
 			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles - Vector3.right * Time.deltaTime * 64f * TurnSpeed * scale);
         }
@@ -119,7 +122,7 @@ public class Movement : MonoBehaviour {
 		Trail.startColor = TrailColor;
 		Trail.transform.localPosition = Position;
 		Trail.material = TrailMaterial;
-		Trail.time = 3;
+		Trail.time = 1.5f;
 	}
 
 	void StopTrail(ref TrailRenderer Trail){

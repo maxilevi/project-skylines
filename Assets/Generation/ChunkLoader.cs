@@ -88,7 +88,7 @@ namespace Assets.Generation
                             }
                         }
                     }
-                    _lastRadius = GraphicsOptions.ChunkLoaderRadius;
+                    _lastRadius = Options.ChunkLoaderRadius;
                     _lastOffset = Offset;
 					World.SortGenerationQueue();
                 }
@@ -119,7 +119,7 @@ namespace Assets.Generation
                         continue;
                     }
 
-					if ((Chunks[i].Position - _playerPosition).sqrMagnitude > (GraphicsOptions.ChunkLoaderRadius) * .5f * Chunk.ChunkSize * (GraphicsOptions.ChunkLoaderRadius) * Chunk.ChunkSize * .5f  )
+					if ((Chunks[i].Position - _playerPosition).sqrMagnitude > (Options.ChunkLoaderRadius) * .5f * Chunk.ChunkSize * (Options.ChunkLoaderRadius) * Chunk.ChunkSize * .5f  )
                     {
                         World.RemoveChunk(Chunks[i]);
                         continue;

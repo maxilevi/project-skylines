@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.ImageEffects;
 using Assets.Generation;
+using Assets;
 
 public class TimeControl : MonoBehaviour {
 
@@ -26,9 +27,12 @@ public class TimeControl : MonoBehaviour {
 	public Text GameOver;
 	public RawImage Title;
 	public Text RestartBtn, StartBtn;
-	private float _targetGameOver, _targetRestart, _targetScore, _targetStart, _targetTitle, _targetPitch = 1;
+	private float _targetGameOver, _targetRestart, _targetScore, _targetStart, _targetTitle, _targetPitch = 1, _targetInvert;
 	public GameObject PlayerPrefab;
 	public AudioSource Sound;
+	public Text InvertTxt;
+	public Image InvertCheck;
+	public Toggle Invert;
 
 	void Start(){
 		Lost = true;
@@ -118,11 +122,15 @@ public class TimeControl : MonoBehaviour {
 		Score.text = ((int) _score).ToString();
 		ScoreCenter.text = Score.text;
 
+		_targetInvert = Mathf.Min (1, _targetScore + _targetTitle);
 		Sound.pitch = Mathf.Lerp (Sound.pitch, _targetPitch, Time.deltaTime * 8f);
 		Title.color = new Color(Title.color.r, Title.color.g, Title.color.b, Mathf.Lerp (Title.color.a, _targetTitle, Time.deltaTime * 4f * (1/Time.timeScale)));
 		StartBtn.color = new Color(StartBtn.color.r, StartBtn.color.g, StartBtn.color.b, Mathf.Lerp (StartBtn.color.a, _targetStart, Time.deltaTime * 4f * (1/Time.timeScale)));
 		GameOver.color = new Color(GameOver.color.r, GameOver.color.g, GameOver.color.b, Mathf.Lerp (GameOver.color.a, _targetGameOver, Time.deltaTime * 4f * (1/Time.timeScale)));
 		RestartBtn.color = new Color(RestartBtn.color.r, RestartBtn.color.g, RestartBtn.color.b, Mathf.Lerp (RestartBtn.color.a, _targetRestart, Time.deltaTime * 4f * (1/Time.timeScale)));
+		Invert.targetGraphic.color = new Color (Invert.targetGraphic.color.r, Invert.targetGraphic.color.g, Invert.targetGraphic.color.b, Mathf.Lerp(Invert.targetGraphic.color.a, _targetInvert, Time.deltaTime * 4f * (1/Time.timeScale)));
+		InvertTxt.color = new Color(InvertTxt.color.r, InvertTxt.color.g, InvertTxt.color.b, Mathf.Lerp (InvertTxt.color.a, _targetInvert, Time.deltaTime * 4f * (1/Time.timeScale)));
+		InvertCheck.color = new Color(InvertCheck.color.r, InvertCheck.color.g, InvertCheck.color.b, Mathf.Lerp (InvertCheck.color.a, _targetTitle, Time.deltaTime * 4f * (1/Time.timeScale)));
 		if (_targetTitle != 1) {
 			Score.color = new Color (Score.color.r, Score.color.g, Score.color.b, Mathf.Lerp (Score.color.a, 1 - _targetScore, Time.deltaTime * 2f * (1 / Time.timeScale)));
 			ScoreCenter.color = new Color (ScoreCenter.color.r, ScoreCenter.color.g, ScoreCenter.color.b, Mathf.Lerp (ScoreCenter.color.a, _targetScore, Time.deltaTime * 2f * (1 / Time.timeScale)));
@@ -157,6 +165,10 @@ public class TimeControl : MonoBehaviour {
 			WasPressed = Input.GetKey(KeyCode.Space);
 
 		_score += Time.deltaTime * 8;
+	}
+
+	public void InvertControls(){
+		Options.Invert = Options.Invert;
 	}
 
 	Vector2 Lerp(Vector2 a, Vector2 b, float d){
