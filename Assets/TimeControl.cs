@@ -33,6 +33,7 @@ public class TimeControl : MonoBehaviour {
 	public Text InvertTxt;
 	public Image InvertCheck;
 	public Toggle Invert;
+	private Movement _movement;
 
 	void Start(){
 		Lost = true;
@@ -108,6 +109,7 @@ public class TimeControl : MonoBehaviour {
 	
 		GameObject go = Instantiate<GameObject>(PlayerPrefab, Vector3.zero, Quaternion.identity);
 		world.Player = go;
+		_movement = go.GetComponentInChildren<Movement> ();
 		go.GetComponent<ShipCollision> ().Control = this.GetComponent<TimeControl> ();
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<FollowShip>().TargetShip = go;
 
@@ -130,7 +132,7 @@ public class TimeControl : MonoBehaviour {
 		RestartBtn.color = new Color(RestartBtn.color.r, RestartBtn.color.g, RestartBtn.color.b, Mathf.Lerp (RestartBtn.color.a, _targetRestart, Time.deltaTime * 4f * (1/Time.timeScale)));
 		Invert.targetGraphic.color = new Color (Invert.targetGraphic.color.r, Invert.targetGraphic.color.g, Invert.targetGraphic.color.b, Mathf.Lerp(Invert.targetGraphic.color.a, _targetInvert, Time.deltaTime * 4f * (1/Time.timeScale)));
 		InvertTxt.color = new Color(InvertTxt.color.r, InvertTxt.color.g, InvertTxt.color.b, Mathf.Lerp (InvertTxt.color.a, _targetInvert, Time.deltaTime * 4f * (1/Time.timeScale)));
-		InvertCheck.color = new Color(InvertCheck.color.r, InvertCheck.color.g, InvertCheck.color.b, Mathf.Lerp (InvertCheck.color.a, _targetTitle, Time.deltaTime * 4f * (1/Time.timeScale)));
+		InvertCheck.color = new Color(InvertCheck.color.r, InvertCheck.color.g, InvertCheck.color.b, Mathf.Lerp (InvertCheck.color.a, _targetInvert, Time.deltaTime * 4f * (1/Time.timeScale)));
 		if (_targetTitle != 1) {
 			Score.color = new Color (Score.color.r, Score.color.g, Score.color.b, Mathf.Lerp (Score.color.a, 1 - _targetScore, Time.deltaTime * 2f * (1 / Time.timeScale)));
 			ScoreCenter.color = new Color (ScoreCenter.color.r, ScoreCenter.color.g, ScoreCenter.color.b, Mathf.Lerp (ScoreCenter.color.a, _targetScore, Time.deltaTime * 2f * (1 / Time.timeScale)));
@@ -165,10 +167,20 @@ public class TimeControl : MonoBehaviour {
 			WasPressed = Input.GetKey(KeyCode.Space);
 
 		_score += Time.deltaTime * 8;
+		if (_score < 125)
+			_movement.Speed = 10;
+		else if (_score < 275)
+			_movement.Speed = 12;
+		else if(_score < 500)
+			_movement.Speed = 16;
+		else if(_score < 1000)
+			_movement.Speed = 20;
+			
 	}
 
 	public void InvertControls(){
-		Options.Invert = Options.Invert;
+		Options.Invert = !Options.Invert;
+		Invert.isOn = Options.Invert;
 	}
 
 	Vector2 Lerp(Vector2 a, Vector2 b, float d){

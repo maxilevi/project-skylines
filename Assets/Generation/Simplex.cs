@@ -71,7 +71,6 @@ namespace Assets.Generation
         private static Contribution4[] lookup4D;
         
         public static void Load(long seed){
-			
             perm = new byte[256];
             perm2D = new byte[256];
             perm3D = new byte[256];

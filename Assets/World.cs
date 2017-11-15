@@ -22,7 +22,6 @@ public class World : MonoBehaviour {
 	public bool Loaded {get; set;}
 
 	void Awake(){
-		//OpenSimplexNoise.Load (Random.Range(int.MinValue, int.MaxValue));
 		Application.targetFrameRate = -1;
 		_meshQueue = new MeshQueue (this);
 		_generationQueue = new GenerationQueue (this);
