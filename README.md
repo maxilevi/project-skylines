@@ -6,11 +6,11 @@ retro 3d game made in under 20 days for the GithubGameOff 2017.
 
 ## screenshots
 
-[](shot0.png)
+[](screenshots/shot0.png)
 
-[](shot1.png)
+[](screenshots/shot1.png)
 
-[](shot2.png)
+[](screenshots/shot2.png)
 
 ## credits
 
