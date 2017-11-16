@@ -159,7 +159,7 @@ public class TimeControl : MonoBehaviour {
 		if (Using) {
 			Time.timeScale = .35f;
 			_targetPitch = .5f;
-			//View.GetComponent<MotionBlur>().enabled = true;
+			View.GetComponent<MotionBlur>().enabled = true;
 			View.GetComponent<VignetteAndChromaticAberration>().enabled = false;
 		} else {
 			Time.timeScale = 1f;

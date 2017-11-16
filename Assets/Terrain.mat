@@ -108,7 +108,7 @@ Material:
     - _WUV: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.3507776, b: 0, a: 1}
-    - _EmissionColor: {r: 1, g: 0.3507776, b: 0, a: 1}
-    - _GColor: {r: 1, g: 0.3507776, b: 0, a: 1}
-    - _WColor: {r: 1, g: 0.3507776, b: 0, a: 1}
+    - _Color: {r: 1, g: 0.39215672, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 0.39215672, b: 0, a: 1}
+    - _GColor: {r: 1, g: 0.39215672, b: 0, a: 1}
+    - _WColor: {r: 1, g: 0.39215672, b: 0, a: 1}
