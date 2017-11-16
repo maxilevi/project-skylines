@@ -173,13 +173,13 @@ public class TimeControl : MonoBehaviour {
 
 		_score += Time.deltaTime * 8;
 		if (_score < 125)
-			_movement.Speed = 10;
-		else if (_score < 275)
 			_movement.Speed = 12;
+		else if (_score < 275)
+			_movement.Speed = 14;
 		else if(_score < 500)
 			_movement.Speed = 16;
 		else if(_score < 1000)
-			_movement.Speed = 20;
+			_movement.Speed = 18;
 			
 	}
 
