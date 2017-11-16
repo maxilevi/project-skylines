@@ -118,6 +118,11 @@ public class TimeControl : MonoBehaviour {
 
 	void Update(){
 
+		#if UNITY_EDITOR
+		if(Input.GetKeyDown(KeyCode.F2))
+			ScreenCapture.CaptureScreenshot("C:/Users/maxi/Desktop/Neon/"+System.DateTime.Now.ToString("dd-MM-yyyy_hh-mm-ss")+".png");
+		#endif
+
 		if ( Lost && Input.GetKeyDown(KeyCode.Space))//Input.anyKeyDown)
 			Restart();
 
@@ -154,7 +159,7 @@ public class TimeControl : MonoBehaviour {
 		if (Using) {
 			Time.timeScale = .35f;
 			_targetPitch = .5f;
-			View.GetComponent<MotionBlur>().enabled = true;
+			//View.GetComponent<MotionBlur>().enabled = true;
 			View.GetComponent<VignetteAndChromaticAberration>().enabled = false;
 		} else {
 			Time.timeScale = 1f;

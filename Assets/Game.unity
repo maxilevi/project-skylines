@@ -547,7 +547,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 729518478}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 478a2083ad114a07d000fbfb8d76c639, type: 3}
   m_Name: 
@@ -5215,7 +5215,7 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0.8896551, a: 1}
   - {r: 0, g: 1, b: 1, a: 1}
   - {r: 0.07586217, g: 1, b: 0, a: 1}
-  CurrentColor: {r: 1, g: 0.39215687, b: 0, a: 1}
+  CurrentColor: {r: 1, g: 0.3507776, b: 0, a: 1}
   MaxThickness: 0.3
   MinThickness: 0.15
   Time: 0
