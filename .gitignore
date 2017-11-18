@@ -1,12 +1,10 @@
 UnityPackageManager
 Library
-ProjectSettings
-/*.csproj
-/*.sln
 .vs
 WireframeShader
 /Assets/WireframeShader.meta
 /Assets/Neon Skylines.ogg
-/Assets/Ship.blend
 obj
 Temp
+*.csproj
+*.sln
