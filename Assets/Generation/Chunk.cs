@@ -228,7 +228,11 @@ namespace Assets.Generation
 
         public void Dispose()
         {
-			ThreadManager.ExecuteOnMainThread( () => _mesh.Clear() );
+			ThreadManager.ExecuteOnMainThread( delegate
+			{
+				_mesh.Clear();
+				Destroy(_mesh);
+			});
 			this.Disposed = true;
             this._generator.Dispose();
 			ThreadManager.ExecuteOnMainThread( () => Destroy (this.gameObject) );
