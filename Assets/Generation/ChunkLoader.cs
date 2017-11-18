@@ -1,4 +1,5 @@
-﻿/* Copyright (C) Luaek - All Rights Reserved
+﻿
+/* Copyright (C) Luaek - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Written by Maxi Levi <maxilevi@live.com>, November 2017
@@ -68,6 +69,7 @@ namespace Assets.Generation
 
 					for (int _x = -World.ChunkLoaderRadius / 2; _x < World.ChunkLoaderRadius / 2; _x++)
                     {
+						yield return null;
 						for (int _z = -World.ChunkLoaderRadius / 2; _z < World.ChunkLoaderRadius / 2; _z++)
                         {
 							for (int _y = -World.ChunkLoaderRadius / 2; _y < World.ChunkLoaderRadius / 2; _y++)
