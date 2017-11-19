@@ -11,13 +11,18 @@ public class FollowShip : MonoBehaviour {
 
 	public GameObject TargetShip;
 	public Vector3 Offset;
+	private Vector3 _lerpPosition;
+	private bool _test;
 
 	void Update () {
 		if (TargetShip == null)
 			return;
+		_lerpPosition = Lerp (_lerpPosition, TargetShip.transform.position, Time.deltaTime * 32f);
 		this.transform.position = Lerp (this.transform.position, TargetShip.transform.position + TargetShip.transform.forward * Offset.z + TargetShip.transform.up * Offset.y, Time.deltaTime * 8f);
-		this.transform.LookAt(TargetShip.transform.position, Vector3.up);
-        //this.transform.rotation = Quaternion.Slerp(this.transform.rotation, TargetShip.transform.rotation, Time.deltaTime * 32f);
+		this.transform.LookAt( (_test) ? _lerpPosition : TargetShip.transform.position, Vector3.up);
+
+		if (Input.GetKeyDown (KeyCode.G))
+			_test = !_test;
     }
 
 	public Vector3 Lerp(Vector3 A, Vector3 B, float C){

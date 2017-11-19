@@ -27,7 +27,6 @@ namespace Assets.Generation
 		private int _exceptionCount = 0;
 		
 		public MeshQueue(World World){
-			//new Thread (Start).Start ();
 			new Thread (Start).Start ();
 			this._player = World.Player;
 			this._world = World;

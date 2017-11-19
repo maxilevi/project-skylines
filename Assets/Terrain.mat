@@ -75,7 +75,7 @@ Material:
     - _FMode: 0
     - _FPow: 10
     - _Fade: 0
-    - _Fold: 31
+    - _Fold: 26
     - _GDist: 0.16
     - _GEmission: 1.05
     - _GPower: 1.25
