@@ -66,7 +66,7 @@ namespace Assets.Generation
 
 					for (int _x = -World.ChunkLoaderRadius / 2; _x < World.ChunkLoaderRadius / 2; _x++)
                     {
-						yield return null;
+						//yield return null;
 						for (int _z = -World.ChunkLoaderRadius / 2; _z < World.ChunkLoaderRadius / 2; _z++)
                         {
 							for (int _y = -World.ChunkLoaderRadius / 2; _y < World.ChunkLoaderRadius / 2; _y++)

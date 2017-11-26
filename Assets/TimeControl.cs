@@ -25,13 +25,19 @@ public class TimeControl : MonoBehaviour {
 	public Text GameOver;
 	public RawImage Title;
 	public Text RestartBtn, StartBtn;
-	private float _targetGameOver, _targetRestart, _targetScore, _targetStart, _targetTitle, _targetPitch = 1, _targetInvert;
 	public GameObject PlayerPrefab;
 	public AudioSource Sound;
 	public Text InvertTxt;
 	public Image InvertCheck;
 	public Toggle Invert;
 	private Movement _movement;
+	private float _targetGameOver;
+	private float _targetRestart;
+	private float _targetScore;
+	private float _targetStart;
+	private float _targetTitle;
+	private float _targetPitch = 1;
+	private float _targetInvert;
 
 	void Start(){
 		Lost = true;
