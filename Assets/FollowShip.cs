@@ -11,7 +11,7 @@ public class FollowShip : MonoBehaviour {
 	public Vector3 Offset;
 	private Vector3 _lerpPosition;
 
-	void Update () {
+	void LateUpdate () {
 		if (TargetShip == null)
 			return;
 		_lerpPosition = Lerp (_lerpPosition, TargetShip.transform.position, Time.deltaTime * 32f);
