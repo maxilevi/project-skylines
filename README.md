@@ -4,13 +4,9 @@ retro 3d game made in under 20 days for the GithubGameOff 2017.
 
 [download latest build at itch.io](https://zaphyk.itch.io/neon-skylines)
 
-## screenshots
-
-![](screenshots/shot0.png)
-
-![](screenshots/shot1.png)
-
-![](screenshots/shot2.png)
+<a href="https://zaphyk.itch.io/neon-skylines">
+  <img alt="Neon Skylines footage" src="https://user-images.githubusercontent.com/121322/34281936-da9a0788-e676-11e7-9cbe-11988bdd4d92.gif" width="100%">
+</a>
 
 ## credits
 
