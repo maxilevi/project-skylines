@@ -3,7 +3,6 @@ Library
 .vs
 WireframeShader
 /Assets/WireframeShader.meta
-/Assets/Neon Skylines.ogg
 obj
 Temp
 *.csproj
