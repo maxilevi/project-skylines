@@ -84,29 +84,17 @@ public class Movement : MonoBehaviour {
 		}
 		
 		float scale = (Time.timeScale != 1) ? (1 / Time.timeScale) * .5f : 1;
-		KeyCode UpKey = (Options.Invert) ? KeyCode.W : KeyCode.S;
-		KeyCode DownKey = (Options.Invert) ? KeyCode.S : KeyCode.W;
 
-		if (Input.GetKey(UpKey))
-        {
-			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + Vector3.right * Time.deltaTime * 64f * TurnSpeed * scale);
-        }
 
-        if (Input.GetKey(DownKey))
-        {
-			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles - Vector3.right * Time.deltaTime * 64f * TurnSpeed * scale);
-        }
+		if(Options.Invert)
+			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + Vector3.right * Time.deltaTime * 64f * TurnSpeed * scale * Input.GetAxis("Vertical"));
+		else
+			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + Vector3.right * Time.deltaTime * 64f * TurnSpeed * scale * -Input.GetAxis("Vertical"));
 
-        if (Input.GetKey (KeyCode.A)) {
-			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + Vector3.forward * Time.deltaTime * 64f * TurnSpeed * scale);
-			transform.parent.Rotate(- Vector3.up * Time.deltaTime * 64f * TurnSpeed * scale);
-        }
 
-		if (Input.GetKey (KeyCode.D)) {
-			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles - Vector3.forward * Time.deltaTime * 64f * TurnSpeed * scale);
-			transform.parent.Rotate( Vector3.up * Time.deltaTime * 64f * TurnSpeed * scale );
+		transform.localRotation = Quaternion.Euler (transform.localRotation.eulerAngles + Vector3.forward * Time.deltaTime * 64f * TurnSpeed * scale * -Input.GetAxis ("Horizontal"));
+		transform.parent.Rotate (-Vector3.up * Time.deltaTime * 64f * TurnSpeed * scale * -Input.GetAxis ("Horizontal"));
 
-        }
 	}
 
 	void StartTrail(ref TrailRenderer Trail, Vector3 Position){
