@@ -1,17 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\FollowShip.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Generation\GenerationQueue.cs">
     <Files>
-      <File FileName="Assets\FollowShip.cs" Line="14" Column="7" />
-      <File FileName="Assets\Generation\Chunk.cs" Line="1" Column="1" />
-      <File FileName="Assets\Generation\WorldGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\Generation\GenerationQueue.cs" Line="1" Column="1" />
-      <File FileName="Assets\Movement.cs" Line="1" Column="1" />
-      <File FileName="Assets\Generation\ChunkLoader.cs" Line="1" Column="1" />
-      <File FileName="Assets\World.cs" Line="1" Column="1" />
-      <File FileName="Assets\ShipCollision.cs" Line="1" Column="1" />
-      <File FileName="Assets\MaterialManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\DebugInfo.cs" Line="1" Column="1" />
+      <File FileName="Assets\Generation\GenerationQueue.cs" Line="25" Column="6" />
+      <File FileName="Assets\Generation\MeshQueue.cs" Line="31" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

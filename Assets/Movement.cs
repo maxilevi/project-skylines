@@ -84,16 +84,17 @@ public class Movement : MonoBehaviour {
 		}
 		
 		float scale = (Time.timeScale != 1) ? (1 / Time.timeScale) * .5f : 1;
-
+		float hAxis = Input.GetAxisRaw("Horizontal");
+		float vAxis = Input.GetAxisRaw("Vertical");
 
 		if(Options.Invert)
-			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + Vector3.right * Time.deltaTime * 64f * TurnSpeed * scale * Input.GetAxis("Vertical"));
+			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + Vector3.right * Time.deltaTime * 64f * TurnSpeed * scale * vAxis);
 		else
-			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + Vector3.right * Time.deltaTime * 64f * TurnSpeed * scale * -Input.GetAxis("Vertical"));
+			transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles + Vector3.right * Time.deltaTime * 64f * TurnSpeed * scale * -vAxis);
 
 
-		transform.localRotation = Quaternion.Euler (transform.localRotation.eulerAngles + Vector3.forward * Time.deltaTime * 64f * TurnSpeed * scale * -Input.GetAxis ("Horizontal"));
-		transform.parent.Rotate (-Vector3.up * Time.deltaTime * 64f * TurnSpeed * scale * -Input.GetAxis ("Horizontal"));
+		transform.localRotation = Quaternion.Euler (transform.localRotation.eulerAngles + Vector3.forward * Time.deltaTime * 64f * TurnSpeed * scale * -hAxis);
+		transform.parent.Rotate (-Vector3.up * Time.deltaTime * 64f * TurnSpeed * scale * -hAxis);
 
 	}
 
