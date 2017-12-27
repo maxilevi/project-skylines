@@ -1,4 +1,4 @@
-# project-skylines (in development)
+# project-skylines (in development) [![Build Status](https://travis-ci.org/Zaphyk/project-skylines.svg?branch=master)](https://travis-ci.org/Zaphyk/project-skylines)
 
 retro 3d game made in under 20 days for the GithubGameOff 2017.
 
