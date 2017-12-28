@@ -21,7 +21,14 @@ namespace Assets.Generation{
 		private int _exceptionCount = 0;
 
 		public GenerationQueue(World World){
-			new Thread (Start).Start ();
+			bool useThreadPool = false;
+
+			if (useThreadPool) {
+				ThreadPool.QueueUserWorkItem ( new WaitCallback( delegate(object state)
+					{ Start(); }) );
+			}else{
+				new Thread (Start).Start ();
+			}
 			this._world = World;
 		}
 

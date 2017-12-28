@@ -25,7 +25,14 @@ namespace Assets.Generation
 		private int _exceptionCount = 0;
 		
 		public MeshQueue(World World){
-			new Thread (Start).Start ();
+			bool useThreadPool = false;
+
+			if (useThreadPool) {
+				ThreadPool.QueueUserWorkItem ( new WaitCallback( delegate(object state)
+					{ Start(); }) );
+			} else {
+				new Thread (Start).Start ();
+			}
 			this._player = World.Player;
 			this._world = World;
 		}
