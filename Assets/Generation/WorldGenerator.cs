@@ -9,6 +9,9 @@ namespace Assets.Generation
 {
     public class WorldGenerator : IDisposable
     {
+		public const float SpawnRadius = 64f;
+		public static Vector3 SpawnPosition = Vector3.forward * 32f;
+
         public void BuildArray(float[][][] Densities)
         {
             for (int x = 0; x < Chunk.ChunkSize; x++)
@@ -42,7 +45,7 @@ namespace Assets.Generation
 						Densities [x] [y] [z] = Mathf.Lerp (prev, next, (float) (z / (float) lerp) );
 
 						//Make a sphere on spawn point
-						Densities [x] [y] [z] = ( ( Vector3.forward * 32f - new Vector3(x + Offsets.x, y + Offsets.y, z + Offsets.z) ).sqrMagnitude < 64f*64f) ? 0 : Densities[x][y][z]; 
+						Densities [x] [y] [z] = ( ( SpawnPosition - new Vector3(x + Offsets.x, y + Offsets.y, z + Offsets.z) ).sqrMagnitude < SpawnRadius*SpawnRadius) ? 0 : Densities[x][y][z]; 
                     }
                 }
             }

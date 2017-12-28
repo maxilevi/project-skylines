@@ -175,7 +175,9 @@ public class TimeControl : MonoBehaviour {
 		if(!Using)
 			WasPressed = Input.GetKey(KeyCode.Space);
 
-		_score += Time.deltaTime * 8;
+		if(!_movement.IsInSpawn)
+			_score += Time.deltaTime * 8;
+	
 		if (_score < 125)
 			_movement.Speed = 12;
 		else if (_score < 275)

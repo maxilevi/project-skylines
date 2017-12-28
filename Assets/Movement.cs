@@ -6,6 +6,7 @@
 using UnityEngine;
 using System.Collections;
 using Assets;
+using Assets.Generation;
 
 public class Movement : MonoBehaviour {
 
@@ -22,6 +23,10 @@ public class Movement : MonoBehaviour {
 	private float _leftTargetVolume = 1, _rightTargetVolume = 1;
 	private float _originalVolume;
 	private float _speed = 0;
+
+	public bool IsInSpawn{
+		get{ return (transform.parent.position - WorldGenerator.SpawnPosition).sqrMagnitude < WorldGenerator.SpawnRadius * WorldGenerator.SpawnRadius; }
+	}
 
 	void Start(){
 		Debris = GameObject.FindGameObjectWithTag ("Debris");
