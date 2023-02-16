@@ -1,5 +1,9 @@
 # project-skylines [![Build Status](https://travis-ci.org/Zaphyk/project-skylines.svg?branch=master)](https://travis-ci.org/Zaphyk/project-skylines)
 
+# full version coming to [Steam](https://store.steampowered.com/app/2318290/Neon_Skylines/?curator_clanid=43630430)
+
+wishlist it! https://store.steampowered.com/app/2318290/Neon_Skylines/?curator_clanid=43630430
+
 retro 3d game made in under 20 days for the GithubGameOff 2017.
 
 [download latest build at itch.io](https://zaphyk.itch.io/neon-skylines)
